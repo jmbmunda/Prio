@@ -69,7 +69,7 @@ const Drawer = ({
     <motion.div
       initial={{ display: "none" }}
       animate={{ display: show ? "block" : "none" }}
-      className={cn("w-full h-full fixed top-0 bg-black/50", overlayClassName)}
+      className={cn("w-full h-full fixed top-0 z-10 bg-black/50", overlayClassName)}
       {...(closeOnOverlayClick && { onClick: close })}
     >
       <motion.div
