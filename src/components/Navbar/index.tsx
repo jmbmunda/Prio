@@ -8,10 +8,14 @@ const Navbar = () => {
   const { show, close } = useDrawer();
 
   return (
-    <Drawer show={show} close={close} closeOnEscape closeOnOverlayClick collapsible>
+    <Drawer show={show} close={close} closeOnEscape closeOnOverlayClick>
       <ul className="space-y-4 flex flex-col">
         {Array.from({ length: 6 }).map((_, idx) => (
-          <li key={idx} className="p-4 flex items-center gap-2 hover:bg-primary hover:text-primary-foreground" onClick={() => close()}>
+          <li
+            key={idx}
+            className="p-4 flex items-center gap-2 hover:bg-primary hover:text-primary-foreground"
+            onClick={() => close()}
+          >
             <IoFileTrayFullOutline />
             <Link href="/">Item # {idx}</Link>
           </li>

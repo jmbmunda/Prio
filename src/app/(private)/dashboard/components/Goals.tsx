@@ -24,14 +24,22 @@ const Goal = ({ id, message, checked, onCheckedChange, removeGoal }: Goal) => (
       />
       <label
         htmlFor={id}
-        className={cn("text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70", checked && "line-through")}
+        className={cn(
+          "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+          checked && "line-through"
+        )}
       >
-        {message} Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque asperiores commodi reiciendis, corrupti rerum illo quidem ad
-        consequuntur provident repudiandae.
+        {message} Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque asperiores commodi
+        reiciendis, corrupti rerum illo quidem ad consequuntur provident repudiandae.
       </label>
     </div>
 
-    {checked && <FiDelete onClick={() => removeGoal?.(id)} className="cursor-pointer text-gray-500 hover:text-black" />}
+    {checked && (
+      <FiDelete
+        onClick={() => removeGoal?.(id)}
+        className="cursor-pointer text-gray-500 hover:text-black"
+      />
+    )}
   </li>
 );
 
@@ -60,9 +68,14 @@ const Goals = () => {
   // TODO: Customize styling
 
   return (
-    <ul className="space-y-4 overflow-y-scroll h-[50vh]">
+    <ul className="space-y-4 overflow-y-auto h-[50vh]">
       {goals.map((goal, idx) => (
-        <Goal key={idx} {...goal} removeGoal={handleRemoveGoal} onCheckedChange={handleCheckedChange} />
+        <Goal
+          key={idx}
+          {...goal}
+          removeGoal={handleRemoveGoal}
+          onCheckedChange={handleCheckedChange}
+        />
       ))}
     </ul>
   );
