@@ -8,7 +8,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <DrawerProvider>
         <Header />
         <Navbar />
-        <main className="container py-4">{children}</main>
+        <main className="container py-4 ">{children}</main>
       </DrawerProvider>
     </section>
   );
