@@ -8,7 +8,7 @@ const ProjectsPage = async () => {
 
   return (
     <div>
-      <DashboardSection title="My Projects" className="col-span-2">
+      <DashboardSection title="My Projects" hasHeader={false} className="col-span-2">
         <Projects projects={projects} />
       </DashboardSection>
     </div>

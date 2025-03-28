@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-import Drawer, { useDrawer } from "../Drawer";
+import { useDrawer } from "../Drawer";
 import { IoFileTrayFullOutline } from "react-icons/io5";
+import dynamic from "next/dynamic";
+const Drawer = dynamic(() => import("../Drawer"), { ssr: false });
 
 const Navbar = () => {
   const { show, close } = useDrawer();

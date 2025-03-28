@@ -7,10 +7,17 @@ type Props = {
   title: string;
   children: React.ReactNode;
   isTransparent?: boolean;
+  hasHeader?: boolean;
   className?: string;
 };
 
-const DashboardSection = ({ title, children, isTransparent, className }: Props) => {
+const DashboardSection = ({
+  title,
+  children,
+  isTransparent,
+  hasHeader = true,
+  className,
+}: Props) => {
   return (
     <section
       className={cn(
@@ -21,14 +28,16 @@ const DashboardSection = ({ title, children, isTransparent, className }: Props) 
         className
       )}
     >
-      <div className="flex justify-between items-center text-white">
-        <div className="flex items-center gap-2 cursor-pointer">
-          <p className="font-bold text-xl">{title}</p>
-          <FaChevronRight />
+      {hasHeader && (
+        <div className="flex justify-between items-center text-white mb-4">
+          <div className="flex items-center gap-2 cursor-pointer">
+            <p className="font-bold text-xl">{title}</p>
+            <FaChevronRight />
+          </div>
+          <IoIosAddCircleOutline size={30} className="cursor-pointer hover:text-purple-500" />
         </div>
-        <IoIosAddCircleOutline size={30} className="cursor-pointer hover:text-purple-500" />
-      </div>
-      <div className="mt-4">{children}</div>
+      )}
+      {children}
     </section>
   );
 };
