@@ -66,39 +66,37 @@ export default function ProjectEditorModal({ editValues, onClose }: ProjectEdito
   };
 
   return (
-    <>
-      <form action={handleSubmit}>
-        <div className="flex flex-col gap-2">
-          <Input
-            defaultValue={editValues?.name ?? ""}
-            name="name"
-            placeholder="Enter project name"
-            className={clsx(
-              "mt-3 block w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
-              "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
-            )}
-          />
-          <Input
-            defaultValue={editValues?.color ?? ""}
-            name="color"
-            placeholder="Enter color"
-            className={clsx(
-              "mt-3 block w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
-              "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
-            )}
-          />
-        </div>
-        <div className="mt-4">
-          <Button
-            type="submit"
-            disabled={isPending}
-            className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700 data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed"
-          >
-            {isPending && <CgSpinner className="animate-spin text-base" />}
-            {renderSubmitLabel()}
-          </Button>
-        </div>
-      </form>
-    </>
+    <form action={handleSubmit}>
+      <div className="flex flex-col gap-2">
+        <Input
+          defaultValue={editValues?.name ?? ""}
+          name="name"
+          placeholder="Enter project name"
+          className={clsx(
+            "mt-3 block w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
+            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+          )}
+        />
+        <Input
+          defaultValue={editValues?.color ?? ""}
+          name="color"
+          placeholder="Enter color"
+          className={clsx(
+            "mt-3 block w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
+            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+          )}
+        />
+      </div>
+      <div className="mt-4">
+        <Button
+          type="submit"
+          disabled={isPending}
+          className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700 data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed"
+        >
+          {isPending && <CgSpinner className="animate-spin text-base" />}
+          {renderSubmitLabel()}
+        </Button>
+      </div>
+    </form>
   );
 }

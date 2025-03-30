@@ -14,18 +14,19 @@ datasource db {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
-  name     String?
-  tasks    Task[]
-  projects Project[]
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  name       String?
+  tasks      Task[]
+  projects   Project[]
+  checklists Checklist[]
 }
 
 model Task {
   id          Int       @id @default(autoincrement())
   title       String
   description String?
-  created_at  DateTime  @default(now())
+  created_at  DateTime? @default(now())
   updated_at  DateTime? @updatedAt
   project_id  String?
   project     Project?  @relation(fields: [project_id], references: [id])
@@ -38,9 +39,18 @@ model Project {
   id         String    @id @default(uuid())
   name       String
   color      String?
-  created_at DateTime  @default(now())
+  created_at DateTime? @default(now())
   updated_at DateTime?
   tasks      Task[]
   user       User?     @relation(fields: [user_id], references: [id])
   user_id    Int?
+}
+
+model Checklist {
+  id         String    @id @default(uuid())
+  text       String
+  is_checked Boolean
+  user       User?     @relation(fields: [user_id], references: [id])
+  user_id    Int?
+  created_at DateTime? @default(now())
 }

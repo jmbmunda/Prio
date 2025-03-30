@@ -1,8 +1,6 @@
-"use client";
-
 import React from "react";
 import DashboardSection from "./components/DashboardSection";
-import Goals from "./components/Goals";
+import Checklist from "./components/Checklist";
 import Tasks from "./components/Tasks";
 
 const DashboardPage = () => {
@@ -11,8 +9,8 @@ const DashboardPage = () => {
       <DashboardSection title="Recent Tasks" isTransparent className="col-span-3 h-max">
         <Tasks />
       </DashboardSection>
-      <DashboardSection title="Goals" isTransparent className="col-span-1 h-max">
-        <Goals />
+      <DashboardSection title="Checklist" isTransparent className="col-span-1 h-max">
+        <Checklist />
       </DashboardSection>
     </div>
   );

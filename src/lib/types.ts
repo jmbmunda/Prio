@@ -8,7 +8,7 @@ export type Task = {
   description: string | null;
   project_id: string | null;
   user_id: number | null;
-  status?: string;
+  status?: string | null;
 };
 
 export type Project = {
@@ -19,7 +19,7 @@ export type Project = {
   updated_at: Date | null;
   user_id: number | null;
   tasks?: Task[];
-  status?: string;
+  status?: string | null;
 };
 
 export type ProjectStatus = keyof typeof MAP_PROJECT_COLOR;
