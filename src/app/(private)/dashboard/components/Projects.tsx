@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { FaClockRotateLeft } from "react-icons/fa6";
-import { Project } from "@/lib/types";
 // import { MAP_PROJECT_COLOR } from "@/lib/constants";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { deleteProject } from "@/actions/projects";
@@ -13,16 +12,17 @@ import toast from "react-hot-toast";
 import { Button } from "@headlessui/react";
 import { useModal } from "@/context/modal";
 import ProjectEditorModal, { ProjectEditorModalProps } from "./ProjectEditorModal";
+import { ProjectType } from "@/lib/types";
 
 type Props = {
-  projects: Project[];
+  projects: ProjectType[];
 };
 
 const Projects = ({ projects = [] }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const { showModal } = useModal();
 
-  const handleShowModal = (editProject: Project | null = null) => {
+  const handleShowModal = (editProject: ProjectType | null = null) => {
     showModal<ProjectEditorModalProps>({
       id: "Sample",
       title: !editProject ? "Create A New Project" : "Edit Project",

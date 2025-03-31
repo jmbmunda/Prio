@@ -7,16 +7,16 @@ import Image from "next/image";
 
 const TaskCard = ({ task }: { task: Task }) => {
   return (
-    <Sortable id={task.id} className="shadow-md bg-white p-4 rounded-md cursor-pointer">
+    <Sortable id={task.id} className="shadow-md bg-background p-4 rounded-md cursor-pointer">
       {/* HEADER */}
       <div className="flex gap-2 mb-2 items-center justify-between text-xs">
         <p className="bg-red-100 text-red-800 font-semibold px-2 rounded-md">High</p>
-        <p className="text-gray-500">LDS-192</p>
+        <p className="text-muted-foreground">LDS-192</p>
       </div>
 
-      <p className="font-semibold text-base truncate">Task {task.id}</p>
+      <p className="font-semibold text-primary truncate">Task {task.id}</p>
 
-      <p className="text-xs text-gray-700 truncate text-nowrap">
+      <p className="text-xs text-accent-foreground truncate text-nowrap">
         Lorem ipsum dolor sit asdsakdasdjaskdjasd askdjsaldkjasdksajdk jasdksajdksajdkasdjkasasjdk
         sajdkasdjkasamet.
       </p>
@@ -43,7 +43,7 @@ const TaskCard = ({ task }: { task: Task }) => {
       <div className="bg-gray-300 h-[0.08rem] my-4" />
 
       {/* FOOTER */}
-      <div className="flex justify-between gap-2 text-xs text-gray-500">
+      <div className="flex justify-between gap-2 text-xs text-muted-foreground">
         <p className="flex gap-1 items-center">
           <CiClock2 /> 2 days ago
         </p>

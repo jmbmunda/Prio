@@ -39,11 +39,11 @@ const ChecklistItem = ({ id, text, checked }: { id: string; text: string; checke
       exit={{ opacity: 0, x: -40 }}
       key={id}
       className={cn(
-        "flex justify-between items-center p-4 bg-slate-100 space-x-2 rounded-md",
-        isChecked && "bg-slate-100 bg-opacity-90"
+        "flex justify-between items-center p-4 bg-background space-x-2 rounded-md",
+        isChecked && "bg-opacity-80"
       )}
     >
-      <div className={cn("flex w-full h-full items-center gap-4", isPending && "animate-pulse")}>
+      <div className={cn("flex w-full h-full items-center gap-4")}>
         <div className="flex w-full items-center gap-2">
           <Checkbox
             id={id}

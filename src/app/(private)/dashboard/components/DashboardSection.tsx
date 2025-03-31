@@ -21,15 +21,15 @@ const DashboardSection = ({
   return (
     <section
       className={cn(
-        "p-4 shadow-md rounded-xl border border-gray-500",
+        `p-4 shadow-md rounded-xl border border-gray-500 border-opacity-10`,
         isTransparent
-          ? "bg-gray-100 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10"
+          ? `bg-gray-500 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10`
           : "bg-background",
         className
       )}
     >
       {hasHeader && (
-        <div className="flex justify-between items-center text-white mb-4">
+        <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-2 cursor-pointer">
             <p className="font-bold text-xl">{title}</p>
             <FaChevronRight />

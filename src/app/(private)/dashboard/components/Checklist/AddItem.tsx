@@ -14,7 +14,7 @@ const AddItem = () => {
 
   return (
     <Button
-      className="w-full bg-gray-100 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 hover:bg-gray-100 hover:bg-opacity-20"
+      className="w-full bg-background/10 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 shadow-none hover:bg-foreground/10"
       onClick={handleAddClick}
     >
       Add an item

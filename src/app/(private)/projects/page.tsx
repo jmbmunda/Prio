@@ -1,10 +1,10 @@
 import React from "react";
 import DashboardSection from "../dashboard/components/DashboardSection";
 import Projects from "../dashboard/components/Projects";
-import prisma from "@/lib/prisma";
+import { getProjects } from "@/actions/projects";
 
 const ProjectsPage = async () => {
-  const projects = await prisma.project?.findMany({ take: 10, include: { tasks: true } });
+  const projects = await getProjects();
 
   return (
     <div>

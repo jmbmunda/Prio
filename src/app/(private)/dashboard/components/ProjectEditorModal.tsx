@@ -1,16 +1,17 @@
 "use client";
 
 import { useTransition } from "react";
-import { Button, Input } from "@headlessui/react";
+import { Input } from "@headlessui/react";
 import { createProject, editProject } from "@/actions/projects";
 import { CgSpinner } from "react-icons/cg";
 import { isEmptyObject } from "@/lib/helpers";
-import { Project } from "@/lib/types";
+import { ProjectType } from "@/lib/types";
 import clsx from "clsx";
 import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
 
 export type ProjectEditorModalProps = {
-  editValues?: Project | null;
+  editValues?: ProjectType | null;
   onClose: () => void;
 };
 
@@ -73,8 +74,8 @@ export default function ProjectEditorModal({ editValues, onClose }: ProjectEdito
           name="name"
           placeholder="Enter project name"
           className={clsx(
-            "mt-3 block w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
-            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+            "mt-3 block w-full rounded-lg border-none bg-foreground/5 py-1.5 px-3 text-sm/6 ",
+            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-foreground/25"
           )}
         />
         <Input
@@ -82,17 +83,13 @@ export default function ProjectEditorModal({ editValues, onClose }: ProjectEdito
           name="color"
           placeholder="Enter color"
           className={clsx(
-            "mt-3 block w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
-            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+            "mt-3 block w-full rounded-lg border-none bg-foreground/5 py-1.5 px-3 text-sm/6 ",
+            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-foreground/25"
           )}
         />
       </div>
       <div className="mt-4">
-        <Button
-          type="submit"
-          disabled={isPending}
-          className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700 data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed"
-        >
+        <Button type="submit" disabled={isPending}>
           {isPending && <CgSpinner className="animate-spin text-base" />}
           {renderSubmitLabel()}
         </Button>
