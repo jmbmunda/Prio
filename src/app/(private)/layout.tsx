@@ -1,14 +1,15 @@
 import { DrawerProvider } from "@/components/Drawer";
 import Header from "@/components/Header";
-import Navbar from "@/components/Navbar";
+import MainContainer from "@/components/MainContainer";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <section>
       <DrawerProvider>
-        <Header />
-        <Navbar />
-        <main className="container py-4 ">{children}</main>
+        <MainContainer>
+          <Header />
+          {children}
+        </MainContainer>
       </DrawerProvider>
     </section>
   );

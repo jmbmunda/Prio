@@ -1,7 +1,5 @@
 import { cn } from "@/lib/utils";
 import React from "react";
-import { IoIosAddCircleOutline } from "react-icons/io";
-import { FaChevronRight } from "react-icons/fa";
 
 type Props = {
   title: string;
@@ -11,7 +9,7 @@ type Props = {
   className?: string;
 };
 
-const DashboardSection = ({
+const TransparentContainer = ({
   title,
   children,
   isTransparent,
@@ -21,7 +19,7 @@ const DashboardSection = ({
   return (
     <section
       className={cn(
-        `p-4 shadow-md rounded-xl border border-gray-500 border-opacity-10`,
+        `p-4 shadow-sm rounded-xl border border-gray-500 border-opacity-10`,
         isTransparent
           ? `bg-gray-500 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10`
           : "bg-background",
@@ -32,9 +30,9 @@ const DashboardSection = ({
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-2 cursor-pointer">
             <p className="font-bold text-xl">{title}</p>
-            <FaChevronRight />
+            {/* <FaChevronRight /> */}
           </div>
-          <IoIosAddCircleOutline size={30} className="cursor-pointer hover:text-purple-500" />
+          {/* <IoIosAddCircleOutline size={30} className="cursor-pointer hover:text-purple-500" /> */}
         </div>
       )}
       {children}
@@ -42,4 +40,4 @@ const DashboardSection = ({
   );
 };
 
-export default DashboardSection;
+export default TransparentContainer;

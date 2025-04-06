@@ -1,9 +1,15 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { IoClose } from "react-icons/io5";
+import { TiChevronRight } from "react-icons/ti";
 import { motion, type Transition } from "motion/react";
-import { createPortal } from "react-dom";
+import Link from "next/link";
+import { HEADER_HEIGHT } from "../Header";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import GradientText from "../GradientText";
+
+// TODO: Find a way to get dynamic width for drawer items
 
 type DrawerContextProps = {
   show: boolean;
@@ -29,10 +35,13 @@ const MAP_DRAWER_POSITION = {
   bottom: { style: "bottom-0 left-0 w-full h-auto max-h-screen", initial: { y: "100%" } },
 };
 
+const MAP_DRAWER_FIXED = {
+  left: { style: "w-auto h-full", initial: { w: "auto" } },
+};
+
 type Position = keyof typeof MAP_DRAWER_POSITION;
 
 type Props = {
-  children: React.ReactNode;
   show: boolean;
   close: () => void;
   closeOnOverlayClick?: boolean;
@@ -41,7 +50,23 @@ type Props = {
   transition?: Transition;
   className?: string;
   overlayClassName?: string;
-};
+  isFloating?: boolean;
+  width?: number;
+  hasMenu?: boolean;
+  onMenuClick?: () => void;
+} & FloatingProps;
+
+type FloatingProps =
+  | {
+      isFloating?: false;
+      items: { icon: React.ElementType; label: string; iconSize?: number; href: string }[];
+      children?: React.ReactNode;
+    }
+  | {
+      isFloating?: true;
+      items?: never;
+      children: React.ReactNode;
+    };
 
 const Drawer = ({
   className,
@@ -52,8 +77,27 @@ const Drawer = ({
   closeOnEscape = false,
   position = "left",
   overlayClassName,
+  isFloating = true,
   transition = { duration: 0.2, ease: "linear" },
+  items,
+  width,
+  hasMenu = true,
+  onMenuClick,
 }: Props) => {
+  const pathname = usePathname();
+  const [showLabel, setShowLabel] = useState(show);
+
+  const containerInitial = isFloating ? "none" : "block";
+  const drawerAnimate = isFloating ? { x: 0, y: 0 } : { width };
+
+  const draweInitial = isFloating
+    ? MAP_DRAWER_POSITION[position].initial
+    : MAP_DRAWER_FIXED["left"].initial;
+
+  const drawerStyle = isFloating
+    ? MAP_DRAWER_POSITION[position].style
+    : MAP_DRAWER_FIXED["left"].style;
+
   useEffect(() => {
     const handleKeyEvent = (event: KeyboardEvent) => {
       if (closeOnEscape && event.code === "Escape") {
@@ -65,29 +109,91 @@ const Drawer = ({
     return () => window.removeEventListener("keydown", handleKeyEvent);
   }, [closeOnEscape, close]);
 
-  return createPortal(
+  return (
     <motion.div
-      initial={{ display: "none" }}
-      animate={{ display: show ? "block" : "none" }}
-      className={cn("w-full h-full fixed top-0 z-10 bg-black/50", overlayClassName)}
+      initial={{ display: containerInitial }}
+      animate={{ display: show ? "block" : containerInitial }}
+      className={cn(
+        "relative",
+        isFloating && "w-full h-full fixed top-0 z-10 bg-black/50",
+        overlayClassName
+      )}
       {...(closeOnOverlayClick && { onClick: close })}
     >
       <motion.div
-        initial={MAP_DRAWER_POSITION[position].initial}
-        animate={show ? { x: 0, y: 0 } : MAP_DRAWER_POSITION[position].initial}
+        initial={draweInitial}
+        animate={show ? drawerAnimate : draweInitial}
         transition={transition}
         onClick={(e) => e.stopPropagation()}
-        className={cn(`absolute bg-white p-4 z-10 overflow-y-scroll`, MAP_DRAWER_POSITION[position].style, className)}
+        className={cn(
+          `bg-background border-r border-muted p-4 z-10 overflow-y-scroll`,
+          isFloating && "absolute",
+          drawerStyle,
+          className
+        )}
+        onAnimationComplete={() =>
+          !show ? setShowLabel(false) : setTimeout(() => setShowLabel(true), 300)
+        }
       >
-        {close && (
-          <span className="grid place-content-end">
-            <IoClose size={24} className="cursor-pointer m-2" onClick={close} />
-          </span>
+        {hasMenu && (
+          <div className="z-50 grid place-items-center mb-4" style={{ height: HEADER_HEIGHT }}>
+            <div className="flex items-center gap-4">
+              <Image src="/icon.png" alt="" width={30} height={30} objectFit="contain" />
+              {show && (
+                <motion.div
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: "auto" }}
+                  transition={{ opacity: { delay: 0.1 }, width: { delay: 0 } }}
+                >
+                  <GradientText
+                    colors={["#107bb5", "#a855f7", "#10b570", "#e3d50b"]}
+                    className="font-bold text-xl"
+                  >
+                    Prio
+                  </GradientText>
+                </motion.div>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={onMenuClick}
+              className="rounded-full z-10 absolute -right-5 bg-border text-purple-500 shadow-lg"
+            >
+              <TiChevronRight
+                size={22}
+                className={cn(
+                  "cursor-pointer m-2 transition duration-800",
+                  show && "transform rotate-180"
+                )}
+              />
+            </button>
+          </div>
+        )}
+        {!isFloating && items && (
+          <ul className="space-y-4 flex flex-col">
+            {items.map(({ label, icon: Icon, iconSize = 24, href }, idx) => (
+              <Link
+                href={href}
+                key={idx}
+                className={cn(
+                  "p-4 flex cursor-pointer items-center rounded-md gap-4 hover:text-purple-500",
+                  href === pathname && "bg-purple-500 text-white hover:text-white"
+                )}
+                onClick={close}
+              >
+                <Icon size={iconSize} />
+                {showLabel && (
+                  <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    {label}
+                  </motion.span>
+                )}
+              </Link>
+            ))}
+          </ul>
         )}
         {children}
       </motion.div>
-    </motion.div>,
-    document.body
+    </motion.div>
   );
 };
 
