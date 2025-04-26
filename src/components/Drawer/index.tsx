@@ -9,8 +9,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import GradientText from "../GradientText";
 
-// TODO: Find a way to get dynamic width for drawer items
-
 type DrawerContextProps = {
   show: boolean;
   open: () => void;
@@ -179,7 +177,6 @@ const Drawer = ({
                   "p-4 flex cursor-pointer items-center rounded-md gap-4 hover:text-purple-500",
                   href === pathname && "bg-purple-500 text-white hover:text-white"
                 )}
-                onClick={close}
               >
                 <Icon size={iconSize} />
                 {showLabel && (

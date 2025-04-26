@@ -1,13 +1,5 @@
-export type ColumnType = {
-  id: string;
-  title: string;
-  color: string;
-  tasks: Task[];
-};
+import { Prisma } from "@prisma/client";
 
-export type Task = {
-  id: string;
-  title: string;
-  description: string;
-  images?: { url: string }[];
-};
+export type ColumnType = Prisma.StatusGetPayload<{
+  include: { tasks: { include: { images: true } } };
+}>;

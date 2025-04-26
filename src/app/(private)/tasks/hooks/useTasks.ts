@@ -7,13 +7,20 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { useState } from "react";
-import { ColumnType, Task } from "../utils/types";
+import { useEffect, useState } from "react";
+import { ColumnType } from "../utils/types";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { Task } from "@/lib/types";
+import { updateTaskPosition } from "@/actions/tasks";
 
-const useTasks = (initialData: ColumnType[]) => {
-  const [columns, setColumns] = useState<ColumnType[]>(initialData);
+const useTasks = (statuses: ColumnType[] = []) => {
+  const [columns, setColumns] = useState<ColumnType[]>(statuses);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const [oldColumn, setOldColumn] = useState<ColumnType | null>(null);
+
+  useEffect(() => {
+    if (statuses) setColumns(statuses);
+  }, [statuses]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -28,13 +35,18 @@ const useTasks = (initialData: ColumnType[]) => {
       .find((task) => task.id === e.active.id);
     if (!selectedTask) return;
     setActiveTask(selectedTask);
+
+    const sourceColumn = findColumn(String(e.active.id));
+    if (sourceColumn) {
+      setOldColumn(sourceColumn);
+    }
   };
 
   const findColumn = (itemId: string | null): ColumnType | null => {
     if (!itemId) return null;
     return (
       columns.find((column) => column.id === itemId) ??
-      columns.find((column) => column.tasks.some((task) => task.id === itemId)) ??
+      columns.find((column) => column.tasks.some((task) => task.id.toString() === itemId)) ??
       null
     );
   };
@@ -53,16 +65,19 @@ const useTasks = (initialData: ColumnType[]) => {
       return;
     }
 
-    const activeItem = activeColumn.tasks.find((task) => task.id === activeId);
+    const activeItem = activeColumn.tasks.find((task) => task.id.toString() === activeId);
     if (!activeItem) return;
 
     setTimeout(() => {
       setColumns((prevColumns) => {
         const newColumns = prevColumns.map((column) => {
           if (column.id === activeColumn.id) {
-            return { ...column, tasks: column.tasks.filter((task) => task.id !== activeId) };
+            return {
+              ...column,
+              tasks: column.tasks.filter((task) => task.id.toString() !== activeId),
+            };
           } else if (column.id === overColumn.id) {
-            const overIndex = overColumn.tasks.findIndex((task) => task.id === overId);
+            const overIndex = overColumn.tasks.findIndex((task) => task.id.toString() === overId);
             const insertIndex = overIndex >= 0 ? overIndex : overColumn.tasks.length;
             return {
               ...column,
@@ -80,17 +95,17 @@ const useTasks = (initialData: ColumnType[]) => {
     }, 0);
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     const activeId = String(active.id);
     const overId = over ? String(over.id) : null;
     const activeColumn = findColumn(activeId);
     const overColumn = findColumn(overId);
-    if (!activeColumn || !overColumn || activeColumn !== overColumn) {
+    if (!activeColumn || !overColumn) {
       return null;
     }
-    const activeIndex = activeColumn.tasks.findIndex((i) => i.id === activeId);
-    const overIndex = overColumn.tasks.findIndex((i) => i.id === overId);
+    const activeIndex = activeColumn.tasks.findIndex((i) => i.id.toString() === activeId);
+    const overIndex = overColumn.tasks.findIndex((i) => i.id.toString() === overId);
     if (activeIndex !== overIndex) {
       setColumns((prevColumns) =>
         prevColumns.map((column) =>
@@ -100,6 +115,21 @@ const useTasks = (initialData: ColumnType[]) => {
         )
       );
     }
+
+    if (!activeTask) return null;
+    const oldId = String(activeTask.id);
+    if (!oldColumn) return null;
+    const oldIndex = oldColumn.tasks.findIndex((i) => i.id.toString() === oldId);
+    try {
+      await updateTaskPosition({
+        taskId: activeId,
+        newColumnId: overColumn.id,
+        oldColumnId: oldColumn.id,
+        newIndex: overIndex,
+        oldIndex,
+      });
+    } catch {}
+    setActiveTask(null);
   };
 
   return { columns, sensors, activeTask, handleDragEnd, handleDragOver, handleDragStart };

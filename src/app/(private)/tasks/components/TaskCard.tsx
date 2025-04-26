@@ -1,9 +1,9 @@
 import Sortable from "@/components/Sortable";
 import React from "react";
+import Image from "next/image";
 import { CiClock2 } from "react-icons/ci";
 import { GoCommentDiscussion } from "react-icons/go";
-import { Task } from "../utils/types";
-import Image from "next/image";
+import { Task } from "@/lib/types";
 
 const TaskCard = ({ task }: { task: Task }) => {
   return (
@@ -11,15 +11,12 @@ const TaskCard = ({ task }: { task: Task }) => {
       {/* HEADER */}
       <div className="flex gap-2 mb-2 items-center justify-between text-xs">
         <p className="bg-red-100 text-red-800 font-semibold px-2 rounded-md">High</p>
-        <p className="text-muted-foreground">LDS-192</p>
+        <p className="text-muted-foreground">#{task.id}</p>
       </div>
 
-      <p className="font-semibold text-primary truncate">Task {task.id}</p>
+      <p className="font-semibold text-primary truncate">{task.title}</p>
 
-      <p className="text-xs text-accent-foreground truncate text-nowrap">
-        Lorem ipsum dolor sit asdsakdasdjaskdjasd askdjsaldkjasdksajdk jasdksajdksajdkasdjkasasjdk
-        sajdkasdjkasamet.
-      </p>
+      <p className="text-xs text-accent-foreground truncate text-nowrap">{task.description}</p>
 
       <div className="grid grid-cols-7 h-[1.5rem] overflow-x-hidden my-2">
         {task?.images?.map((image) => (

@@ -23,16 +23,26 @@ model User {
 }
 
 model Task {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   title       String
   description String?
+  slot        Int       @default(0)
+  images      Image[]
+  status      Status?   @relation(fields: [status_id], references: [id])
+  status_id   String?
   created_at  DateTime? @default(now())
   updated_at  DateTime? @updatedAt
   project_id  String?
   project     Project?  @relation(fields: [project_id], references: [id])
   user_id     Int?
   user        User?     @relation(fields: [user_id], references: [id])
-  status      String?
+}
+
+model Status {
+  id    String @id @default(uuid())
+  name  String @unique
+  color String @default("#D3D3D3")
+  tasks Task[]
 }
 
 model Project {
@@ -53,4 +63,12 @@ model Checklist {
   user       User?     @relation(fields: [user_id], references: [id])
   user_id    Int?
   created_at DateTime? @default(now())
+}
+
+model Image {
+  id      String  @id @default(uuid())
+  name    String
+  url     String
+  task_id String?
+  task    Task?   @relation(fields: [task_id], references: [id])
 }
