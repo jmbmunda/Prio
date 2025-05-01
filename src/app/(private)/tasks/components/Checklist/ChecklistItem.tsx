@@ -1,39 +1,24 @@
 "use client";
 
-import toast from "react-hot-toast";
+import React, { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { deleteChecklist, updateChecklist } from "@/actions/checklist";
-import { useTransition } from "react";
 import { motion } from "motion/react";
-import { FaTrashCan } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
 
-const ChecklistItem = ({ id, text, checked }: { id: string; text: string; checked: boolean }) => {
-  const [isPending, startTransition] = useTransition();
-  const isChecked = isPending ? !checked : checked;
+type Props = {
+  id: string;
+  text: string;
+  checked: boolean;
+  handleChange: (id: string, checked: boolean) => void;
+  handleRemove: (id: string) => void;
+};
 
-  const handleChange = (id: string, checked: boolean) => {
-    startTransition(async () => {
-      try {
-        await updateChecklist(id, { is_checked: checked });
-      } catch {
-        toast.error("Failed to change an item");
-      }
-    });
-  };
-
-  const handleRemove = async (id: string) => {
-    const toastID = toast.loading("Deleting...");
-    try {
-      await deleteChecklist(id);
-      toast.success("Deleted!", { id: toastID });
-    } catch {
-      toast.error("Failed to delete an item", { id: toastID });
-    }
-  };
+const ChecklistItem = ({ id, text, checked, handleChange, handleRemove }: Props) => {
+  const [isChecked, setIsChecked] = useState(checked);
 
   return (
-    <motion.li
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, x: -40 }}
@@ -49,7 +34,7 @@ const ChecklistItem = ({ id, text, checked }: { id: string; text: string; checke
             id={id}
             checked={isChecked}
             onCheckedChange={(checked: boolean) => {
-              if (isPending) return;
+              setIsChecked((prev) => !prev);
               handleChange(id, checked);
             }}
             className="rounded-full"
@@ -67,14 +52,14 @@ const ChecklistItem = ({ id, text, checked }: { id: string; text: string; checke
         </div>
 
         {isChecked && (
-          <FaTrashCan
+          <RxCross2
             onClick={() => handleRemove(id)}
             className="cursor-pointer text-gray-500 hover:text-black"
           />
         )}
       </div>
-    </motion.li>
+    </motion.div>
   );
 };
 
-export default ChecklistItem;
+export default React.memo(ChecklistItem);

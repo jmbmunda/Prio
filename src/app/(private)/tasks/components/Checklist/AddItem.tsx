@@ -9,7 +9,11 @@ const AddItem = () => {
   const { showModal } = useModal();
 
   const handleAddClick = () => {
-    showModal({ id: "add-checklist-item", title: "Add an item", component: ChecklistEditorModal });
+    showModal({
+      id: "add-checklist-item",
+      title: "New Checklist Item",
+      component: ChecklistEditorModal,
+    });
   };
 
   return (

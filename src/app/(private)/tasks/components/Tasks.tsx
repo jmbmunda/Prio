@@ -7,26 +7,25 @@ import { ColumnType } from "../utils/types";
 import useTasks from "../hooks/useTasks";
 import TaskEditorModal from "./TaskEditorModal";
 import dynamic from "next/dynamic";
+import { Task } from "@/lib/types";
 
 const TasksList = dynamic(() => import("./TasksList"), { ssr: false });
 
-// TODO: save the placement index in the db
-
 type Props = {
-  statuses: ColumnType[];
+  data: ColumnType[];
 };
 
-const Tasks = ({ statuses }: Props) => {
+const Tasks = ({ data }: Props) => {
   const { columns, sensors, activeTask, handleDragEnd, handleDragOver, handleDragStart } =
-    useTasks(statuses);
+    useTasks(data);
   const { showModal } = useModal();
 
-  const onAddTaskClick = (status_id: string, totalTasks: number) => {
+  const onAddTaskClick = (status_id: string, tasks: Task[]) => {
     showModal({
       id: "add-task",
       title: "Add Task",
       component: TaskEditorModal,
-      props: { columns, editValues: { status_id }, totalTasks, onClose: () => {} },
+      props: { columns, editValues: { status_id }, totalTasks: tasks.length, onClose: () => {} },
     });
   };
 

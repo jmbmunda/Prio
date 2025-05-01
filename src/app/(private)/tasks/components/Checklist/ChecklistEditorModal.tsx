@@ -22,7 +22,7 @@ export default function ChecklistEditorModal({ onClose }: ChecklistEditorModalPr
           text: formData.get("text") as string,
         };
         await createChecklist(data);
-        toast.success("Added an item!", { id: toastID });
+        toast.success("Added to checklist!", { id: toastID });
       } catch {
         toast.error("Failed to add an item", { id: toastID });
       }

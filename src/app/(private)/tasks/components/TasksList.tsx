@@ -14,7 +14,7 @@ import { MdAdd } from "react-icons/md";
 type Props = {
   columns: ColumnType[];
   activeTask: Task | null;
-  onAddTaskClick: (columnId: string, totalTasks: number) => void;
+  onAddTaskClick: (columnId: string, tasks: Task[]) => void;
 };
 
 const TasksList = ({ columns, activeTask, onAddTaskClick }: Props) => {
@@ -42,7 +42,7 @@ const TasksList = ({ columns, activeTask, onAddTaskClick }: Props) => {
                 </div>
                 <MdAdd
                   className="cursor-pointer text-muted-foreground hover:text-foreground"
-                  onClick={() => onAddTaskClick(id, tasks.length)}
+                  onClick={() => onAddTaskClick(id, tasks)}
                 />
               </div>
               <div

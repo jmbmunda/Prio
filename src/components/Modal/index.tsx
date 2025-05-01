@@ -33,7 +33,7 @@ const Modal = ({
             className="w-full max-w-md rounded-xl bg-background/80 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(10%)] data-[closed]:opacity-0"
           >
             {title && (
-              <DialogTitle as="h3" className="text-base/7 font-medium text-foreground">
+              <DialogTitle as="h3" className="text-base/7 font-semibold text-foreground mb-2">
                 {title}
               </DialogTitle>
             )}

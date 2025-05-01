@@ -13,14 +13,14 @@ import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { Task } from "@/lib/types";
 import { updateTaskPosition } from "@/actions/tasks";
 
-const useTasks = (statuses: ColumnType[] = []) => {
-  const [columns, setColumns] = useState<ColumnType[]>(statuses);
+const useTasks = (data: ColumnType[] = []) => {
+  const [columns, setColumns] = useState<ColumnType[]>(data);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const [oldColumn, setOldColumn] = useState<ColumnType | null>(null);
 
   useEffect(() => {
-    if (statuses) setColumns(statuses);
-  }, [statuses]);
+    if (data) setColumns(data);
+  }, [data]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
