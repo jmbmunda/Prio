@@ -104,8 +104,10 @@ const useTasks = (data: ColumnType[] = []) => {
     if (!activeColumn || !overColumn) {
       return null;
     }
+
     const activeIndex = activeColumn.tasks.findIndex((i) => i.id.toString() === activeId);
     const overIndex = overColumn.tasks.findIndex((i) => i.id.toString() === overId);
+
     if (activeIndex !== overIndex) {
       setColumns((prevColumns) =>
         prevColumns.map((column) =>
@@ -120,6 +122,7 @@ const useTasks = (data: ColumnType[] = []) => {
     const oldId = String(activeTask.id);
     if (!oldColumn) return null;
     const oldIndex = oldColumn.tasks.findIndex((i) => i.id.toString() === oldId);
+    if (activeColumn.id === oldColumn.id && overIndex === oldIndex) return;
     try {
       await updateTaskPosition({
         taskId: activeId,

@@ -2,17 +2,17 @@
 import Modal, { ModalProps } from "@/components/Modal";
 import React, { createContext, useContext, useReducer } from "react";
 
-export type ModalContextType = {
-  modals: BaseProps[];
-  showModal: <T extends object>(data: BaseProps<Partial<T>>) => void;
-  closeModal: (id: string) => void;
-};
-
 export type BaseProps<T extends object = object> = {
   id: string;
   component: React.ElementType;
   props?: T;
 } & Partial<ModalProps>;
+
+export type ModalContextType = {
+  modals: BaseProps[];
+  showModal: <T extends object>(data: BaseProps<Partial<T>>) => void;
+  closeModal: (id: string) => void;
+};
 
 export enum ModalActionEnum {
   ADD = "ADD",

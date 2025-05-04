@@ -30,3 +30,6 @@ export const projects = [
     updated_at: "1 day ago",
   },
 ];
+
+export const NAVBAR_DRAWER_ID = "navbar-drawer";
+export const TASK_DRAWER_ID = "task-drawer";

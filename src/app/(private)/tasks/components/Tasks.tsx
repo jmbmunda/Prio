@@ -4,10 +4,10 @@ import React from "react";
 import { closestCorners, DndContext } from "@dnd-kit/core";
 import { useModal } from "@/context/modal";
 import { ColumnType } from "../utils/types";
+import { Task } from "@/lib/types";
 import useTasks from "../hooks/useTasks";
 import TaskEditorModal from "./TaskEditorModal";
 import dynamic from "next/dynamic";
-import { Task } from "@/lib/types";
 
 const TasksList = dynamic(() => import("./TasksList"), { ssr: false });
 

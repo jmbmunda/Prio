@@ -1,3 +1,4 @@
+import DrawerProvider from "@/context/drawer";
 import ModalProvider from "@/context/modal";
 import { ThemeProvider } from "@/context/theme";
 import React from "react";
@@ -12,7 +13,9 @@ const Providers = ({ children }: Props) => {
     <>
       <ThemeProvider>
         <Toaster />
-        <ModalProvider>{children}</ModalProvider>
+        <ModalProvider>
+          <DrawerProvider>{children}</DrawerProvider>
+        </ModalProvider>
       </ThemeProvider>
     </>
   );

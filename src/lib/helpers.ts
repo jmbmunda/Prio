@@ -14,10 +14,24 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
   let timeoutId: ReturnType<typeof setTimeout> | null = null;
   return (...args: Parameters<T>) => {
     if (timeoutId !== null) {
-      clearTimeout(timeoutId); // Clear any existing timer
+      clearTimeout(timeoutId);
     }
     timeoutId = setTimeout(() => {
-      func(...args); // Execute the original function after the wait time
+      func(...args);
     }, wait);
   };
 }
+
+export const shortenTaskId = (uuid: string) => {
+  if (!uuid) return;
+  const id = uuid.split("-")[0].toUpperCase();
+  return `PRIO-${id}`;
+};
+
+export const determineHexContrast = (hex: string = "#ffffff") => {
+  const r = parseInt(hex.substring(1, 3), 16);
+  const g = parseInt(hex.substring(3, 5), 16);
+  const b = parseInt(hex.substring(5, 7), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.5 ? 1 : 0; // 0 = dark , 1 = light
+};

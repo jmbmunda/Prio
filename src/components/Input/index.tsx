@@ -7,14 +7,33 @@ type Props<T extends FieldValues> = {
   name: Path<T>;
   control: Control<T>;
   label?: string;
+  ref?: React.Ref<HTMLTextAreaElement>;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onBlur?: () => void;
   className?: string;
 } & InputProps;
 
-const Input = <T extends FieldValues>({ name, control, label, className, ...rest }: Props<T>) => {
+const Input = <T extends FieldValues>({
+  name,
+  control,
+  label,
+  ref,
+  onChange,
+  onBlur,
+  className,
+  ...rest
+}: Props<T>) => {
   const {
     field,
     fieldState: { error },
   } = useController({ name, control });
+
+  const mergedField = {
+    ...field,
+    ref: ref ?? field.ref,
+    onChange: onChange ?? field.onChange,
+    onBlur: onBlur ?? field.onBlur,
+  };
 
   return (
     <div className="flex flex-col">
@@ -31,7 +50,7 @@ const Input = <T extends FieldValues>({ name, control, label, className, ...rest
           error && "bg-destructive/5",
           className
         )}
-        {...field}
+        {...mergedField}
       />
       {error && <p className="text-destructive text-xs mt-1">{error.message}</p>}
     </div>

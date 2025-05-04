@@ -23,7 +23,10 @@ export const getTasks = async (params?: { q?: string; limit?: number }) => {
 
 export const getTaskById = async (id: string) => {
   try {
-    const res = await prisma.task.findUnique({ where: { id: id } });
+    const res = await prisma.task.findUnique({
+      where: { id: id },
+      include: { status: true, images: true },
+    });
     return res;
   } catch (error) {
     return Promise.reject(error);

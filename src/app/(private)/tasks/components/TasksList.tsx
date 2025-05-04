@@ -10,6 +10,8 @@ import { DragOverlay } from "@dnd-kit/core";
 import { Task } from "@/lib/types";
 import { ColumnType } from "../utils/types";
 import { MdAdd } from "react-icons/md";
+import { useDrawer } from "@/context/drawer";
+import { TASK_DRAWER_ID } from "@/lib/constants";
 
 type Props = {
   columns: ColumnType[];
@@ -18,6 +20,15 @@ type Props = {
 };
 
 const TasksList = ({ columns, activeTask, onAddTaskClick }: Props) => {
+  const { openDrawer } = useDrawer();
+
+  const onTaskClick = (task: Task) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("id", task.id);
+    window.history.replaceState({}, "", `?${searchParams.toString()}`);
+    openDrawer(TASK_DRAWER_ID);
+  };
+
   return (
     <>
       <div
@@ -59,7 +70,9 @@ const TasksList = ({ columns, activeTask, onAddTaskClick }: Props) => {
         ))}
       </div>
       {createPortal(
-        <DragOverlay>{activeTask && <TaskCard task={activeTask} />}</DragOverlay>,
+        <DragOverlay>
+          {activeTask && <TaskCard task={activeTask} onClick={onTaskClick} />}
+        </DragOverlay>,
         document.body
       )}
     </>

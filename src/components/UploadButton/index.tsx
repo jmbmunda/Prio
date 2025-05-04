@@ -1,6 +1,6 @@
 "use client";
 
-import { useFileUploader } from "@/lib/hooks";
+import { useFileUploader } from "@/lib/hooks/useFileUploader";
 import { cn } from "@/lib/utils";
 import { UploadcareFile } from "@uploadcare/upload-client";
 import React, { useRef } from "react";
