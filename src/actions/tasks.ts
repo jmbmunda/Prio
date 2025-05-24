@@ -12,7 +12,7 @@ export const getTasks = async (params?: { q?: string; limit?: number }) => {
   try {
     const res = await prisma.task.findMany({
       take: params?.limit ?? 10,
-      include: { user: true, project: true, images: true },
+      include: { user: true, project: true, images: true, tags: true },
       where: { OR: [{ title: { contains: params?.q } }, { id: params?.q }] },
     });
     return res;
@@ -25,15 +25,17 @@ export const getTaskById = async (id: string) => {
   try {
     const res = await prisma.task.findUnique({
       where: { id: id },
-      include: { status: true, images: true },
+      include: { status: true, images: true, tags: true, taskTags: { include: { tag: true } } },
     });
-    return res;
+    if (!res) return null;
+    const tags = res.taskTags.map((item) => item.tag);
+    return { ...res, tags };
   } catch (error) {
     return Promise.reject(error);
   }
 };
 
-export const removeTask = async (id: string) => {
+export const deleteTask = async (id: string) => {
   try {
     await prisma.task.delete({ where: { id } });
     revalidatePath("/tasks");

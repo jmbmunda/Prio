@@ -1,17 +1,23 @@
+"use client";
+
 import { getTaskById } from "@/actions/tasks";
 import Drawer from "@/components/Drawer";
 import { useDrawer } from "@/context/drawer";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import useSWR from "swr";
-import Form from "./Form";
+import TaskDetails from "./TaskDetails";
 
 const TASK_DRAWER_ID = "task-drawer";
 
 const TaskDrawer = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const { data, isLoading } = useSWR(id ? ["task-details", id] : null, ([, id]) => getTaskById(id));
+  const { data: details, isLoading } = useSWR(
+    id ? ["task-details", id] : null,
+    ([, id]) => getTaskById(id),
+    { keepPreviousData: true }
+  );
 
   const { openDrawers, closeDrawer } = useDrawer();
   const isActiveDrawer = openDrawers.includes(TASK_DRAWER_ID);
@@ -33,7 +39,7 @@ const TaskDrawer = () => {
       isFloating={true}
     >
       <div className="w-[500px] mx-2">
-        {isLoading ? <p>Loading...</p> : <Form details={data!} />}
+        {isLoading ? <p>Loading...</p> : <TaskDetails details={details} />}
       </div>
     </Drawer>
   );

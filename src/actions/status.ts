@@ -8,7 +8,7 @@ type Payload = Omit<Status, "id">;
 export const getStatuses = async () => {
   try {
     const res = await prisma.status.findMany({
-      include: { tasks: { include: { images: true }, orderBy: { slot: "asc" } } },
+      include: { tasks: { include: { images: true, tags: true }, orderBy: { slot: "asc" } } },
     });
     return res;
   } catch (error) {

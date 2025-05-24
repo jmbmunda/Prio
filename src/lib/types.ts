@@ -1,4 +1,4 @@
-import { Project, Prisma } from "@prisma/client";
+import { Project, Prisma, Tag as TagType } from "@prisma/client";
 import { MAP_PROJECT_COLOR } from "./constants";
 
 export type ProjectType = Project & {
@@ -9,6 +9,8 @@ export type ProjectType = Project & {
 export type ProjectStatus = keyof typeof MAP_PROJECT_COLOR;
 
 export type Task = Prisma.TaskGetPayload<{ include: { images: true } }>;
+
+export type Tag = Omit<TagType, "tasks" | "tasksTags">;
 
 export enum Status {
   TODO,
