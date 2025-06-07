@@ -3,9 +3,9 @@ import React from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
 
-type Props = { id: string; children: React.ReactNode; className?: string };
+type Props = { id: string; children: React.ReactNode; onClick: () => void; className?: string };
 
-const Sortable = ({ id, children, className }: Props) => {
+const Sortable = ({ id, children, onClick, className }: Props) => {
   const { attributes, listeners, setNodeRef, transform, isDragging, transition } = useSortable({
     id: id,
   });
@@ -22,8 +22,9 @@ const Sortable = ({ id, children, className }: Props) => {
       {...listeners}
       style={style}
       className={cn(className, "will-change-transform")}
+      onClick={onClick}
     >
-      <div id={id}>{children}</div>
+      {children}
     </div>
   );
 };

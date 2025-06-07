@@ -8,6 +8,7 @@ export const taskSchema = z.object({
     z.object({
       name: z.string(),
       url: z.string(),
+      uuid: z.string().optional().nullable(),
     })
   ),
 });

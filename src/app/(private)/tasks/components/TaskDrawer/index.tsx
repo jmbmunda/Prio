@@ -16,7 +16,9 @@ const TaskDrawer = () => {
   const { data: details, isLoading } = useSWR(
     id ? ["task-details", id] : null,
     ([, id]) => getTaskById(id),
-    { keepPreviousData: true }
+    {
+      keepPreviousData: true,
+    }
   );
 
   const { openDrawers, closeDrawer } = useDrawer();

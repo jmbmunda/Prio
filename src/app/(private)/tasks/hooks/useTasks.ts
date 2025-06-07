@@ -3,6 +3,7 @@ import {
   DragOverEvent,
   DragStartEvent,
   KeyboardSensor,
+  MouseSensor,
   PointerSensor,
   useSensor,
   useSensors,
@@ -23,7 +24,8 @@ const useTasks = (data: ColumnType[] = []) => {
   }, [data]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(MouseSensor),
+    useSensor(PointerSensor, { activationConstraint: { distance: 0.01 } }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })

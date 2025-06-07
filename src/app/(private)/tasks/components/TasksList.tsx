@@ -62,7 +62,7 @@ const TasksList = ({ columns, activeTask, onAddTaskClick }: Props) => {
                 )}
               >
                 {tasks.map((task) => (
-                  <TaskCard key={task.id} task={task} />
+                  <TaskCard key={task.id} task={task} onClick={onTaskClick} />
                 ))}
               </div>
             </Droppable>

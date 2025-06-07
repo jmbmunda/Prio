@@ -51,6 +51,7 @@ model Image {
   id      String  @id @default(uuid())
   name    String
   url     String
+  uuid    String?
   task_id String?
   task    Task?   @relation(fields: [task_id], references: [id])
 }
