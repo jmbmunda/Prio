@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { determineHexContrast } from "@/lib/helpers";
 import { Control, FieldValues, UseFormWatch } from "react-hook-form";
 import { updateTask } from "@/actions/tasks";
+import toast from "react-hot-toast";
 
 type Props = {
   taskId: string;
@@ -19,13 +20,10 @@ const Status = ({ taskId, control, watch, placeholder }: Props) => {
 
   const handleChange = async (item: (typeof statusOptions)[number]) => {
     if (status === item.name) return;
-    console.log("STATUS EXECUTED");
-    // CALL UDPATE TASK? STATUS? API HERE
     try {
       await updateTask(taskId, { status_id: item.id });
-      console.log("UPDATE TASK FINISHED");
-    } catch (error) {
-      console.log("UPDATE TASK ERROR: ", error);
+    } catch {
+      toast.error("Failed to update status");
     }
   };
 

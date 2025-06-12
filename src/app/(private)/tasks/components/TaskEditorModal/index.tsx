@@ -16,6 +16,7 @@ import UploadButton from "@/components/UploadButton";
 import { UploadcareFile } from "@uploadcare/upload-client";
 import Image from "next/image";
 import { MdUpload } from "react-icons/md";
+import { DatePicker } from "@/components/DatePicker";
 
 const TaskEditorModal = ({ columns, editValues, totalTasks, onClose }: Props) => {
   const [isPending, startTransition] = useTransition();
@@ -23,6 +24,7 @@ const TaskEditorModal = ({ columns, editValues, totalTasks, onClose }: Props) =>
     defaultValues: {
       title: editValues?.title ?? "",
       description: editValues?.description ?? "",
+      due_date: editValues?.due_date,
       status_id: editValues?.status_id ?? "",
       images: editValues?.images ?? [],
     },
@@ -64,6 +66,7 @@ const TaskEditorModal = ({ columns, editValues, totalTasks, onClose }: Props) =>
           control={control}
           placeholder="Enter description"
         />
+        <DatePicker name="due_date" control={control} label="Due Date" />
         <Dropdown label="Status" name="status_id" control={control} options={statuses} />
 
         <div className="h-[1px] bg-gray-500/20 w-full my-2" />

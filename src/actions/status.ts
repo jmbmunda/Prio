@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { Status } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 type Payload = Omit<Status, "id">;
 
@@ -19,6 +20,7 @@ export const getStatuses = async () => {
 export const createStatus = async (data: Payload) => {
   try {
     const res = await prisma.status.create({ data });
+    revalidatePath("/tasks");
     return res;
   } catch (error) {
     return Promise.reject(error);
@@ -28,6 +30,17 @@ export const createStatus = async (data: Payload) => {
 export const updateStatus = async (id: string, data: Partial<Payload>) => {
   try {
     const res = await prisma.status.update({ where: { id }, data });
+    revalidatePath("/tasks");
+    return res;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const deleteStatus = async (id: string) => {
+  try {
+    const res = await prisma.status.delete({ where: { id } });
+    revalidatePath("/tasks");
     return res;
   } catch (error) {
     return Promise.reject(error);

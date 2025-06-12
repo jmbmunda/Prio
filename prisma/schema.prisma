@@ -30,6 +30,7 @@ model Task {
   images      Image[]
   status      Status?   @relation(fields: [status_id], references: [id])
   status_id   String?
+  due_date    DateTime?
   created_at  DateTime? @default(now())
   updated_at  DateTime? @updatedAt
   project_id  String?

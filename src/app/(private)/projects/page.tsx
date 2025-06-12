@@ -1,5 +1,5 @@
 import React from "react";
-import Projects from "../tasks/components/Projects";
+import Projects from "./components/Projects";
 import TransparentContainer from "@/components/TransparentContainer";
 import { getProjects } from "@/actions/projects";
 

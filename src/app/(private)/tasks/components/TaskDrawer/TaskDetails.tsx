@@ -80,7 +80,9 @@ const TaskDetails = ({ details }: Props) => {
             <Status taskId={details.id} control={control} watch={watch} />
           </DetailsRow>
           <DetailsRow label="Due Date:" icon={<MdOutlineDateRange />}>
-            <p>{dayjs(details?.created_at?.toString()).format("D MMM YYYY")}</p>
+            <p>
+              {details?.due_date ? dayjs(details?.due_date?.toString()).format("D MMM YYYY") : "-"}
+            </p>
           </DetailsRow>
           <DetailsRow label="Tags" icon={<LuTags />}>
             <Tags taskId={details.id} tags={details.tags} control={control} />
