@@ -1,17 +1,21 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { CgSpinner } from "react-icons/cg";
+
+import { createStatus, updateStatus } from "@/actions/status";
+import ColorPicker from "@/components/ColorPicker";
 import Input from "@/components/Input";
 import { Button } from "@/components/ui/button";
-import { createStatus, updateStatus } from "@/actions/status";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { CgSpinner } from "react-icons/cg";
+
 import { columnSchema } from "./utils/schema";
 import { ColumnPayload, Props } from "./utils/types";
+
 import "react-color-palette/css";
-import ColorPicker from "@/components/ColorPicker";
-import toast from "react-hot-toast";
+
 
 const ColumnEditorModal = ({ type, id, name, color, onClose }: Props) => {
   const [isPending, startTransition] = useTransition();

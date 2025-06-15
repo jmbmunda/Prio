@@ -1,11 +1,13 @@
 "use client";
 
-import { useTransition } from "react";
 import { Button } from "@headlessui/react";
+import { useTransition } from "react";
+import toast from "react-hot-toast";
 import { CgSpinner } from "react-icons/cg";
+
 import { createChecklist } from "@/actions/checklist";
 import { Textarea } from "@/components/ui/textarea";
-import toast from "react-hot-toast";
+
 
 export type ChecklistEditorModalProps = {
   onClose: () => void;

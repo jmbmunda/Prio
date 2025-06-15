@@ -1,8 +1,10 @@
 "use client";
 
+import React from "react";
+
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/context/modal";
-import React from "react";
+
 import ChecklistEditorModal from "./ChecklistEditorModal";
 
 const AddItem = () => {

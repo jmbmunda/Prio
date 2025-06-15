@@ -1,14 +1,16 @@
 "use client";
 
-import { useTransition } from "react";
 import { Input } from "@headlessui/react";
-import { createProject, editProject } from "@/actions/projects";
+import clsx from "clsx";
+import { useTransition } from "react";
+import toast from "react-hot-toast";
 import { CgSpinner } from "react-icons/cg";
+
+import { createProject, editProject } from "@/actions/projects";
+import { Button } from "@/components/ui/button";
 import { isEmptyObject } from "@/lib/helpers";
 import { ProjectType } from "@/lib/types";
-import clsx from "clsx";
-import toast from "react-hot-toast";
-import { Button } from "@/components/ui/button";
+
 
 export type ProjectEditorModalProps = {
   editValues?: ProjectType | null;

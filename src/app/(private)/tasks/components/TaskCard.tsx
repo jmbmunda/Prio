@@ -1,17 +1,23 @@
 "use client";
 
-import Sortable from "@/components/Sortable";
-import React from "react";
+import dayjs from "dayjs";
 import Image from "next/image";
+import React from "react";
+import { useContextMenu } from "react-contexify";
 import { CiClock2 } from "react-icons/ci";
 import { GoCommentDiscussion } from "react-icons/go";
-import { Task } from "@/lib/types";
+
+import Sortable from "@/components/Sortable";
+import { TASK_MENU_ID } from "@/lib/constants";
 import { shortenTaskId } from "@/lib/helpers";
-import dayjs from "dayjs";
+import { Task } from "@/lib/types";
+
 
 type Props = { task: Task; onClick: (task: Task) => void };
 
 const TaskCard = ({ task, onClick }: Props) => {
+  const { show } = useContextMenu({ id: TASK_MENU_ID });
+
   const displayDueDate = () => {
     if (!task?.due_date) return "-";
     const daysLeft = dayjs(task?.due_date).diff(dayjs(), "days");
@@ -26,14 +32,26 @@ const TaskCard = ({ task, onClick }: Props) => {
       className="shadow-md bg-background p-4 rounded-md cursor-pointer"
       onClick={() => onClick(task)}
     >
-      <div>
+      <div
+        onContextMenu={(e) => {
+          show({
+            event: e,
+            position: { x: e.clientX, y: e.clientY },
+            props: { id: task.id },
+          });
+        }}
+      >
         {/* HEADER */}
         <div className="flex gap-2 mb-2 items-center justify-between text-xs">
-          <p className="bg-red-100 text-red-800 font-semibold px-2 rounded-md">High</p>
+          <p className="bg-red-100 text-red-800 font-semibold px-2 rounded-md">
+            High
+          </p>
           <p className="text-muted-foreground">{shortenTaskId(task.id)}</p>
         </div>
         <p className="font-semibold text-primary truncate">{task.title}</p>
-        <p className="text-xs text-accent-foreground truncate text-nowrap">{task.description}</p>
+        <p className="text-xs text-accent-foreground truncate text-nowrap">
+          {task.description}
+        </p>
         <div className="grid grid-cols-7 h-[1.5rem] overflow-x-hidden my-2">
           {task?.images?.map((image) => (
             <Image

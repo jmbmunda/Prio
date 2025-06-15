@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, Item, Separator, ItemParams } from "react-contexify";
 import "react-contexify/dist/ReactContexify.css";
-import { FcDeleteColumn, FcEditImage } from "react-icons/fc";
+import { FcSynchronize, FcEmptyTrash } from "react-icons/fc";
 
 type Props = {
   id: string;
@@ -9,21 +9,21 @@ type Props = {
   onDeleteClick?: (item: ItemParams) => void;
 };
 
-const ColumnMenu = ({ id, onEditClick, onDeleteClick }: Props) => {
+const TaskMenu = ({ id, onEditClick, onDeleteClick }: Props) => {
   return (
     <Menu id={id} animation="scale">
       <Item disabled>
-        <span className="text-muted-foreground foreground text-sm font-medium">Column options</span>
+        <span className="text-muted-foreground foreground text-sm font-medium">Task options</span>
       </Item>
       <Separator />
       <Item onClick={onEditClick}>
-        <FcEditImage className="mr-2" /> Edit column
+        <FcSynchronize className="mr-2" /> Change Status
       </Item>
       <Item onClick={onDeleteClick}>
-        <FcDeleteColumn className="mr-2" /> Delete column
+        <FcEmptyTrash className="mr-2" /> Delete
       </Item>
     </Menu>
   );
 };
 
-export default ColumnMenu;
+export default TaskMenu;

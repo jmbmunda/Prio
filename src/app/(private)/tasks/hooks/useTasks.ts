@@ -8,11 +8,13 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { useEffect, useState } from "react";
-import { ColumnType } from "../utils/types";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { Task } from "@/lib/types";
+import { useEffect, useState } from "react";
+
 import { updateTaskPosition } from "@/actions/tasks";
+import { Task } from "@/lib/types";
+
+import { ColumnType } from "../utils/types";
 
 const useTasks = (data: ColumnType[] = []) => {
   const [columns, setColumns] = useState<ColumnType[]>(data);

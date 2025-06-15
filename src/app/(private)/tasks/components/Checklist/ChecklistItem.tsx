@@ -1,10 +1,11 @@
 "use client";
 
+import { motion } from "motion/react";
 import React, { useState } from "react";
+import { RxCross2 } from "react-icons/rx";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { motion } from "motion/react";
-import { RxCross2 } from "react-icons/rx";
 
 type Props = {
   id: string;

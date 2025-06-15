@@ -1,8 +1,9 @@
 "use server";
 
-import prisma from "@/lib/prisma";
 import { Status } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+
+import prisma from "@/lib/prisma";
 
 type Payload = Omit<Status, "id">;
 

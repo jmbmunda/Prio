@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
-import "./globals.css";
+
 import Providers from "@/lib/providers";
+
+import type { Metadata } from "next";
+import "./globals.css";
 
 const lexendSans = Lexend({
   variable: "--font-lexend-sans",

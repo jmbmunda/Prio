@@ -5,12 +5,12 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
-import { BiChevronDown, BiCheck } from "react-icons/bi";
-
 import clsx from "clsx";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
+import { BiChevronDown, BiCheck } from "react-icons/bi";
+
+import { cn } from "@/lib/utils";
 
 type Option = { label: string; value: string };
 

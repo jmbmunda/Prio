@@ -1,8 +1,9 @@
-import { assignTagToTask, getTags, unassignTagFromTask } from "@/actions/tags";
 import { Tag } from "@prisma/client";
 import { useOptimistic, useTransition } from "react";
 import toast from "react-hot-toast";
 import useSWR, { mutate } from "swr";
+
+import { assignTagToTask, getTags, unassignTagFromTask } from "@/actions/tags";
 
 const useTaskTags = (taskId: string, tags: Tag[]) => {
   const { data: tagList } = useSWR("tags", getTags);

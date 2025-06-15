@@ -34,4 +34,5 @@ export const projects = [
 export const NAVBAR_DRAWER_ID = "navbar-drawer";
 export const TASK_DRAWER_ID = "task-drawer";
 
-export const RIGHT_CLICK_MENU_ID = "right-click-menu";
+export const COLUMN_MENU_ID = "column-menu-id";
+export const TASK_MENU_ID = "Task-menu-id";

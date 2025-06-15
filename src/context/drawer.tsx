@@ -1,7 +1,8 @@
 "use client";
 
-import { Props as DrawerProps } from "@/components/Drawer";
 import React, { createContext, useContext, useReducer } from "react";
+
+import { Props as DrawerProps } from "@/components/Drawer";
 
 export type BaseProps<T extends object = object> = {
   id: string;

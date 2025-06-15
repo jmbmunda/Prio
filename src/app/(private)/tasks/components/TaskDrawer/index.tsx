@@ -1,11 +1,13 @@
 "use client";
 
-import { getTaskById } from "@/actions/tasks";
-import Drawer from "@/components/Drawer";
-import { useDrawer } from "@/context/drawer";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import useSWR from "swr";
+
+import { getTaskById } from "@/actions/tasks";
+import Drawer from "@/components/Drawer";
+import { useDrawer } from "@/context/drawer";
+
 import TaskDetails from "./TaskDetails";
 
 const TASK_DRAWER_ID = "task-drawer";

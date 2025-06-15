@@ -1,25 +1,27 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { HiOutlineStatusOnline } from "react-icons/hi";
-import { MdOutlineDateRange, MdOutlineDescription } from "react-icons/md";
-import { FaMinusCircle } from "react-icons/fa";
-import { LuTags } from "react-icons/lu";
-import { getTaskById, updateTask } from "@/actions/tasks";
-import { useForm } from "react-hook-form";
-import { EditFields } from "./types";
-import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
-import TextArea from "@/components/Textarea";
 import Image from "next/image";
-import Input from "@/components/Input";
-import Tags from "./Tags";
-import Status from "./Status";
-import UploadFile from "@/components/UploadFile";
-import { TaskPayload } from "../TaskEditorModal/utils/types";
-import DetailsRow from "./DetailsRow";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { FaMinusCircle } from "react-icons/fa";
+import { HiOutlineStatusOnline } from "react-icons/hi";
+import { LuTags } from "react-icons/lu";
+import { MdOutlineDateRange, MdOutlineDescription } from "react-icons/md";
 import { mutate } from "swr";
+
 import { deleteAndUpdateFile, deleteFile } from "@/actions/files";
+import { getTaskById, updateTask } from "@/actions/tasks";
+import Input from "@/components/Input";
+import TextArea from "@/components/Textarea";
+import UploadFile from "@/components/UploadFile";
+import { cn } from "@/lib/utils";
+
+import DetailsRow from "./DetailsRow";
+import Status from "./Status";
+import Tags from "./Tags";
+import { EditFields } from "./types";
+import { TaskPayload } from "../TaskEditorModal/utils/types";
 
 type Props = {
   details: Awaited<ReturnType<typeof getTaskById>> | null | undefined;
@@ -81,7 +83,9 @@ const TaskDetails = ({ details }: Props) => {
           </DetailsRow>
           <DetailsRow label="Due Date:" icon={<MdOutlineDateRange />}>
             <p>
-              {details?.due_date ? dayjs(details?.due_date?.toString()).format("D MMM YYYY") : "-"}
+              {details?.due_date
+                ? dayjs(details?.due_date?.toString()).format("D MMM YYYY")
+                : "-"}
             </p>
           </DetailsRow>
           <DetailsRow label="Tags" icon={<LuTags />}>
@@ -100,7 +104,7 @@ const TaskDetails = ({ details }: Props) => {
               ref={(textarea) =>
                 textarea?.setSelectionRange(
                   getValues("description")?.length ?? 0,
-                  getValues("description")?.length ?? 0
+                  getValues("description")?.length ?? 0,
                 )
               }
               control={control}
@@ -139,23 +143,29 @@ const TaskDetails = ({ details }: Props) => {
                     onClick={async () => {
                       if (!image.uuid) return;
                       try {
-                        await deleteAndUpdateFile(details.id, image.uuid, image.id);
+                        await deleteAndUpdateFile(
+                          details.id,
+                          image.uuid,
+                          image.id,
+                        );
                         mutate(["task-details", details.id]); // TODO: Improve UI & UX (add loading, disabled state, close button style, etc.)
-                      } catch (error) {
-                        console.error("Failed to delete file", error);
-                      }
+                      } catch {}
                     }}
                   />
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-muted-foreground text-center">No photos attached</p>
+            <p className="text-muted-foreground text-center">
+              No photos attached
+            </p>
           )}
           <div
             className={cn(
               "grid",
-              details.images.length ? "place-items-start" : "place-items-center"
+              details.images.length
+                ? "place-items-start"
+                : "place-items-center",
             )}
           >
             <UploadFile
@@ -168,17 +178,17 @@ const TaskDetails = ({ details }: Props) => {
               }}
               onDoneClick={async (e) => {
                 if (e.successEntries.length === 0) return;
-                const files: TaskPayload["images"] = e.successEntries.map((entry) => ({
-                  name: entry.name,
-                  url: entry.cdnUrl!,
-                  uuid: entry.uuid,
-                }));
+                const files: TaskPayload["images"] = e.successEntries.map(
+                  (entry) => ({
+                    name: entry.name,
+                    url: entry.cdnUrl!,
+                    uuid: entry.uuid,
+                  }),
+                );
                 try {
                   await updateTask(details.id, { images: files });
                   mutate(["task-details", details.id]);
-                } catch (error) {
-                  console.error("Failed to update task", error);
-                }
+                } catch {}
               }}
             />
           </div>

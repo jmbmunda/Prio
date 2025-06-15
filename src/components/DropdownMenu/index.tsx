@@ -1,10 +1,12 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { Item, Props } from "./types";
 import { useController } from "react-hook-form";
 import { MdCheck } from "react-icons/md";
+
+import { cn } from "@/lib/utils";
+
+import { Item, Props } from "./types";
 
 export default function DropdownMenu<T extends Item>({
   name,

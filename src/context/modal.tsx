@@ -1,6 +1,7 @@
 "use client";
-import Modal, { ModalProps } from "@/components/Modal";
 import React, { createContext, useContext, useReducer } from "react";
+
+import Modal, { ModalProps } from "@/components/Modal";
 
 export type BaseProps<T extends object = object> = {
   id: string;

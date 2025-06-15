@@ -1,9 +1,10 @@
 "use client";
 
-import { useFileUploader } from "@/lib/hooks/useFileUploader";
-import { cn } from "@/lib/utils";
 import { UploadcareFile } from "@uploadcare/upload-client";
 import React, { useRef } from "react";
+
+import { useFileUploader } from "@/lib/hooks/useFileUploader";
+import { cn } from "@/lib/utils";
 
 type Props = React.ComponentProps<"button"> & {
   children: React.ReactNode;

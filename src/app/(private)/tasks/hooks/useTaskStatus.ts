@@ -1,6 +1,7 @@
-import { getStatuses } from "@/actions/status";
 import { useCallback, useMemo } from "react";
 import useSWR from "swr";
+
+import { getStatuses } from "@/actions/status";
 
 const useTaskStatus = () => {
   const { data: statuses, isLoading, isValidating } = useSWR("task-status", getStatuses);

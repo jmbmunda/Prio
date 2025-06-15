@@ -1,9 +1,9 @@
 import { GoProjectRoadmap, GoTasklist } from "react-icons/go";
 import { IoCalendarNumberOutline } from "react-icons/io5";
-import { MdOutlineSpaceDashboard } from "react-icons/md";
+// import { MdOutlineSpaceDashboard } from "react-icons/md";
 
 export const LINKS = [
-  { label: "Dashboard", icon: MdOutlineSpaceDashboard, href: "/dashboard" },
+  // { label: "Dashboard", icon: MdOutlineSpaceDashboard, href: "/dashboard" },
   { label: "Tasks", icon: GoTasklist, href: "/tasks" },
   { label: "Projects", icon: GoProjectRoadmap, href: "/projects" },
   { label: "Calendar", icon: IoCalendarNumberOutline, href: "/calendar" },

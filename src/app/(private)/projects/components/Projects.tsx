@@ -1,18 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
-// import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { cn } from "@/lib/utils";
-import { FaClockRotateLeft } from "react-icons/fa6";
-// import { MAP_PROJECT_COLOR } from "@/lib/constants";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import { deleteProject } from "@/actions/projects";
-import toast from "react-hot-toast";
 import { Button } from "@headlessui/react";
+import { useState } from "react";
+// import { Badge } from "@/components/ui/badge";
+import toast from "react-hot-toast";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaClockRotateLeft } from "react-icons/fa6";
+
+import { deleteProject } from "@/actions/projects";
+import { Progress } from "@/components/ui/progress";
 import { useModal } from "@/context/modal";
-import ProjectEditorModal, { ProjectEditorModalProps } from "./ProjectEditorModal";
 import { ProjectType } from "@/lib/types";
+import { cn } from "@/lib/utils";
+// import { MAP_PROJECT_COLOR } from "@/lib/constants";
+
+import ProjectEditorModal, {
+  ProjectEditorModalProps,
+} from "./ProjectEditorModal";
 
 type Props = {
   projects: ProjectType[];
@@ -60,7 +64,10 @@ const Projects = ({ projects = [] }: Props) => {
       {projects?.map((project) => (
         <div
           key={project.id}
-          className={cn("p-4 flex flex-col border-sm cursor-pointer shadow-lg", project.color)}
+          className={cn(
+            "p-4 flex flex-col border-sm cursor-pointer shadow-lg",
+            project.color,
+          )}
         >
           <div className="flex justify-between items-center">
             <p>{project.name}</p>
@@ -81,7 +88,9 @@ const Projects = ({ projects = [] }: Props) => {
               </button>
             </div>
           </div>
-          <p className="text-gray-500 text-sm">0 / {project.tasks?.length} tasks</p>
+          <p className="text-gray-500 text-sm">
+            0 / {project.tasks?.length} tasks
+          </p>
           <div className="flex justify-between items-center">
             <div className="flex flex-1 items-center gap-2 mt-2">
               <Progress value={33} className="w-1/2" />
@@ -89,7 +98,9 @@ const Projects = ({ projects = [] }: Props) => {
             </div>
             <div className="flex gap-1 items-center mt-2 self-end">
               <FaClockRotateLeft size={12} className="text-gray-500" />
-              <p className="text-gray-500 text-xs">{project.updated_at?.toString()}</p>
+              <p className="text-gray-500 text-xs">
+                {project.updated_at?.toString()}
+              </p>
             </div>
           </div>
         </div>

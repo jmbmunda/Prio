@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
 import {
   FileUploaderRegular,
   FileUploaderInline,
@@ -8,6 +7,8 @@ import {
   OutputCollectionState,
   OutputCollectionStatus,
 } from "@uploadcare/react-uploader";
+import React, { useState } from "react";
+
 import "@uploadcare/react-uploader/core.css";
 import { useTheme } from "@/context/theme";
 

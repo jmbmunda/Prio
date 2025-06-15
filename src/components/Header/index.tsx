@@ -2,10 +2,12 @@
 
 import { usePathname } from "next/navigation";
 import React from "react";
-import { Switch } from "../ui/switch";
-import { useTheme } from "@/context/theme";
 import { BsMoonStarsFill } from "react-icons/bs";
 import { ImSun } from "react-icons/im";
+
+import { useTheme } from "@/context/theme";
+
+import { Switch } from "../ui/switch";
 
 export const HEADER_HEIGHT = "4rem";
 

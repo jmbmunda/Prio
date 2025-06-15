@@ -1,7 +1,9 @@
-import React from "react";
 import { Input as HInput, InputProps } from "@headlessui/react";
-import { cn } from "@/lib/utils";
+import React from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
+
+import { cn } from "@/lib/utils";
+
 
 type Props<T extends FieldValues> = {
   name: Path<T>;

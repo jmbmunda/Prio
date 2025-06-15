@@ -1,16 +1,18 @@
 "use client";
-import React, { useState } from "react";
+import { motion } from "motion/react";
 import dynamic from "next/dynamic";
-import GradientText from "../GradientText";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HEADER_HEIGHT } from "../Header";
-import { motion } from "motion/react";
+import React, { useState } from "react";
 import { TiChevronRight } from "react-icons/ti";
-import { cn } from "@/lib/utils";
+
 import { useDrawer } from "@/context/drawer";
 import { NAVBAR_DRAWER_ID } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+
+import GradientText from "../GradientText";
+import { HEADER_HEIGHT } from "../Header";
 import { LINKS, LOGO_GRADIENT_COLORS } from "./constants";
 
 const Drawer = dynamic(() => import("../Drawer"), { ssr: false });

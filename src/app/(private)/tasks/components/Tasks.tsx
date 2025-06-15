@@ -1,13 +1,16 @@
 "use client";
 
-import React from "react";
 import { closestCorners, DndContext } from "@dnd-kit/core";
-import { useModal } from "@/context/modal";
-import { ColumnType } from "../utils/types";
-import { Task } from "@/lib/types";
-import useTasks from "../hooks/useTasks";
-import TaskEditorModal from "./TaskEditorModal";
 import dynamic from "next/dynamic";
+import React from "react";
+
+import { useModal } from "@/context/modal";
+import { Task } from "@/lib/types";
+
+import TaskEditorModal from "./TaskEditorModal";
+import useTasks from "../hooks/useTasks";
+import { ColumnType } from "../utils/types";
+
 
 const TasksList = dynamic(() => import("./TasksList"), { ssr: false });
 

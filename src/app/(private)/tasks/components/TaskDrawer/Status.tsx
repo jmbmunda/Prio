@@ -1,11 +1,13 @@
-import DropdownMenu from "@/components/DropdownMenu";
 import React from "react";
-import useTaskStatus from "../../hooks/useTaskStatus";
-import { cn } from "@/lib/utils";
-import { determineHexContrast } from "@/lib/helpers";
 import { Control, FieldValues, UseFormWatch } from "react-hook-form";
-import { updateTask } from "@/actions/tasks";
 import toast from "react-hot-toast";
+
+import { updateTask } from "@/actions/tasks";
+import DropdownMenu from "@/components/DropdownMenu";
+import { determineHexContrast } from "@/lib/helpers";
+import { cn } from "@/lib/utils";
+
+import useTaskStatus from "../../hooks/useTaskStatus";
 
 type Props = {
   taskId: string;

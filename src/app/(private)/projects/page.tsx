@@ -1,7 +1,9 @@
 import React from "react";
-import Projects from "./components/Projects";
-import TransparentContainer from "@/components/TransparentContainer";
+
 import { getProjects } from "@/actions/projects";
+import TransparentContainer from "@/components/TransparentContainer";
+
+import Projects from "./components/Projects";
 
 const ProjectsPage = async () => {
   const projects = await getProjects();

@@ -1,10 +1,17 @@
-import React from "react";
-import { Control, Controller, FieldError, FieldValues, Path } from "react-hook-form";
-import { useColor, ColorPicker as RColorPicker } from "react-color-palette";
-import "react-color-palette/css";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import React from "react";
+import { ColorPicker as RColorPicker, useColor } from "react-color-palette";
+import "react-color-palette/css";
+import {
+  Control,
+  Controller,
+  FieldError,
+  FieldValues,
+  Path,
+} from "react-hook-form";
 import { CiPickerHalf } from "react-icons/ci";
 import { PiSealWarningBold } from "react-icons/pi";
+
 import { cn } from "@/lib/utils";
 
 type Props<T extends FieldValues> = {
@@ -40,12 +47,15 @@ const ColorPicker = <T extends FieldValues>({
           <div
             className={cn(
               "flex gap-1 p-2 items-center rounded-md text-sm text-muted-foreground",
-              triggerClassName
+              triggerClassName,
             )}
           >
             <CiPickerHalf /> {label}{" "}
             {showColor && (
-              <div className="rounded-full size-3 ml-1" style={{ backgroundColor: color.hex }} />
+              <div
+                className="rounded-full size-3 ml-1"
+                style={{ backgroundColor: color.hex }}
+              />
             )}
             {error && <PiSealWarningBold className="ml-1 text-destructive" />}
           </div>
@@ -55,7 +65,7 @@ const ColorPicker = <T extends FieldValues>({
         transition
         className={cn(
           "absolute rounded-xl bg-background p-2 text-sm/6 transition duration-200 ease-in-out data-closed:-translate-y-1 data-closed:opacity-0",
-          className
+          className,
         )}
         style={{ backgroundColor: color.hex }}
       >

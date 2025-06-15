@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { AnimatePresence } from "motion/react";
 import { Checklist as TCheckList } from "@prisma/client";
-import { deleteChecklist, updateChecklist } from "@/actions/checklist";
-import ChecklistItem from "./ChecklistItem";
+import { AnimatePresence } from "motion/react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+
+import { deleteChecklist, updateChecklist } from "@/actions/checklist";
+
 import AddItem from "./AddItem";
+import ChecklistItem from "./ChecklistItem";
 
 type Props = {
   data: TCheckList[];

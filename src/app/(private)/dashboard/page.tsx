@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import TransparentContainer from "@/components/TransparentContainer";
 import { FaFireAlt } from "react-icons/fa";
 import { PieChart, Pie, ResponsiveContainer } from "recharts";
+
+import TransparentContainer from "@/components/TransparentContainer";
 
 const data = [
   { name: "In Progress", value: 4, fill: "#8884d8" },

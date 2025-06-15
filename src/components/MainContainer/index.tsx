@@ -1,11 +1,13 @@
 "use client";
 
+import { motion } from "motion/react";
 import React from "react";
+
+import TaskDrawer from "@/app/(private)/tasks/components/TaskDrawer";
+import { cn } from "@/lib/utils";
+
 import Navbar from "../Navbar";
 import { Props } from "./types";
-import { motion } from "motion/react";
-import { cn } from "@/lib/utils";
-import TaskDrawer from "@/app/(private)/tasks/components/TaskDrawer";
 
 const MainContainer = ({ children }: Props) => {
   return (

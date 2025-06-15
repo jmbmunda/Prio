@@ -1,7 +1,9 @@
-import { Task } from "@/lib/types";
-import { ColumnType } from "../../../utils/types";
 import { z } from "zod";
+
+import { Task } from "@/lib/types";
+
 import { taskSchema } from "./schema";
+import { ColumnType } from "../../../utils/types";
 
 export type Props = {
   columns?: ColumnType[];

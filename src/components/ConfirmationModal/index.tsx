@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Button } from "../ui/button";
-import Divider from "../Divider";
 import { CgSpinner } from "react-icons/cg";
+
+import Divider from "../Divider";
+import { Button } from "../ui/button";
 
 type Props = {
   title?: string;

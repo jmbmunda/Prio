@@ -1,6 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable";
-import React from "react";
 import { CSS } from "@dnd-kit/utilities";
+import React from "react";
+
 import { cn } from "@/lib/utils";
 
 type Props = { id: string; children: React.ReactNode; onClick: () => void; className?: string };

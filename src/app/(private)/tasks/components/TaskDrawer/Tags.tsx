@@ -1,12 +1,15 @@
 "use client";
 
 import React from "react";
-import DropdownMenu from "@/components/DropdownMenu";
-import { Tag } from "@/lib/types";
-import { CgCloseO } from "react-icons/cg";
-import { cn } from "@/lib/utils";
-import { determineHexContrast } from "@/lib/helpers";
 import { Control, FieldValues } from "react-hook-form";
+import { CgCloseO } from "react-icons/cg";
+
+import DropdownMenu from "@/components/DropdownMenu";
+import { determineHexContrast } from "@/lib/helpers";
+import { Tag } from "@/lib/types";
+import { cn } from "@/lib/utils";
+
+
 import useTaskTags from "../../hooks/useTaskTags";
 
 type Props = { taskId: string; tags: Tag[]; control: Control<FieldValues> };

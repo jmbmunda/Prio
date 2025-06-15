@@ -1,9 +1,11 @@
 import React from "react";
+
+import { getChecklist } from "@/actions/checklist";
+import { getStatuses } from "@/actions/status";
+import TransparentContainer from "@/components/TransparentContainer";
+
 import Checklist from "./components/Checklist";
 import Tasks from "../tasks/components/Tasks";
-import TransparentContainer from "@/components/TransparentContainer";
-import { getStatuses } from "@/actions/status";
-import { getChecklist } from "@/actions/checklist";
 
 const TasksPage = async () => {
   const statuses = await getStatuses();

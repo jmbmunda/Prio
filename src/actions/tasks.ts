@@ -1,9 +1,10 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import { TaskPayload } from "@/app/(private)/tasks/components/TaskEditorModal/utils/types";
 import prisma from "@/lib/prisma";
 import { Task } from "@/lib/types";
-import { revalidatePath } from "next/cache";
 
 export type Payload = Pick<Task, "title" | "description" | "status_id" | "slot"> &
   Pick<TaskPayload, "images">;
