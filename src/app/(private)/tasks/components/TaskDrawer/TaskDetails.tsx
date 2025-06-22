@@ -55,7 +55,7 @@ const TaskDetails = ({ details }: Props) => {
     if (details) reset({ ...details, status: details.status?.name });
   }, [reset, details]);
 
-  if (!details) return null; // TODO: add loading state
+  if (!details) return null;
 
   return (
     <div className="flex flex-col w-full">
@@ -83,9 +83,7 @@ const TaskDetails = ({ details }: Props) => {
           </DetailsRow>
           <DetailsRow label="Due Date:" icon={<MdOutlineDateRange />}>
             <p>
-              {details?.due_date
-                ? dayjs(details?.due_date?.toString()).format("D MMM YYYY")
-                : "-"}
+              {details?.due_date ? dayjs(details?.due_date?.toString()).format("D MMM YYYY") : "-"}
             </p>
           </DetailsRow>
           <DetailsRow label="Tags" icon={<LuTags />}>
@@ -104,7 +102,7 @@ const TaskDetails = ({ details }: Props) => {
               ref={(textarea) =>
                 textarea?.setSelectionRange(
                   getValues("description")?.length ?? 0,
-                  getValues("description")?.length ?? 0,
+                  getValues("description")?.length ?? 0
                 )
               }
               control={control}
@@ -129,25 +127,21 @@ const TaskDetails = ({ details }: Props) => {
           {details?.images.length ? (
             <div className="flex gap-2 overflow-x-auto w-full">
               {details?.images.map((image) => (
-                <div key={image.id} className="relative">
+                <div key={image.id} className="relative grid place-items-center">
                   <Image
                     key={image.id}
                     src={image.url}
                     width={100}
                     height={100}
                     alt={image.name}
-                    className="object-contain rounded-lg"
+                    className="object-contain rounded-lg w-full h-full"
                   />
                   <FaMinusCircle
                     className="absolute top-1 right-1 cursor-pointer text-red-500 bg-white rounded-full hover:text-red-600 active:scale-90"
                     onClick={async () => {
                       if (!image.uuid) return;
                       try {
-                        await deleteAndUpdateFile(
-                          details.id,
-                          image.uuid,
-                          image.id,
-                        );
+                        await deleteAndUpdateFile(details.id, image.uuid, image.id);
                         mutate(["task-details", details.id]); // TODO: Improve UI & UX (add loading, disabled state, close button style, etc.)
                       } catch {}
                     }}
@@ -156,16 +150,12 @@ const TaskDetails = ({ details }: Props) => {
               ))}
             </div>
           ) : (
-            <p className="text-muted-foreground text-center">
-              No photos attached
-            </p>
+            <p className="text-muted-foreground text-center">No photos attached</p>
           )}
           <div
             className={cn(
               "grid",
-              details.images.length
-                ? "place-items-start"
-                : "place-items-center",
+              details.images.length ? "place-items-start" : "place-items-center"
             )}
           >
             <UploadFile
@@ -178,13 +168,11 @@ const TaskDetails = ({ details }: Props) => {
               }}
               onDoneClick={async (e) => {
                 if (e.successEntries.length === 0) return;
-                const files: TaskPayload["images"] = e.successEntries.map(
-                  (entry) => ({
-                    name: entry.name,
-                    url: entry.cdnUrl!,
-                    uuid: entry.uuid,
-                  }),
-                );
+                const files: TaskPayload["images"] = e.successEntries.map((entry) => ({
+                  name: entry.name,
+                  url: entry.cdnUrl!,
+                  uuid: entry.uuid,
+                }));
                 try {
                   await updateTask(details.id, { images: files });
                   mutate(["task-details", details.id]);

@@ -30,7 +30,7 @@ const useColumn = () => {
 
   const onDeleteColumnClick = ({ props: { id } }: ItemParams) => {
     showModal({
-      id: "confirmation",
+      id: "confirmation-delete-column",
       component: ConfirmationModal,
       props: {
         title: "Confirm Delete",

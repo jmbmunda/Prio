@@ -61,7 +61,7 @@ export default {
       keyframes: {
         spinOut: {
           "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(180deg)" },
+          "100%": { transform: "rotate(-180deg)" },
         },
         spinIn: {
           "0%": { transform: "rotate(-180deg)" },

@@ -1,18 +1,26 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+import GradientText from "@/components/GradientText";
+import Loader from "@/components/Loader";
+import { LOGO_GRADIENT_COLORS } from "@/components/Navbar/constants";
 
 export default function Home() {
-  return (
-    <div className="p-8 content-center">
-      <h1 className="font-bold">Prio</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, veniam modi. Eos at ab deserunt consequatur! Quae similique dicta eveniet.
-      </p>
+  const router = useRouter();
 
-      <Link href="/dashboard" className="font-bold text-blue-500">
-        Go to dashboard
-      </Link>
-    </div>
+  useEffect(() => {
+    setTimeout(() => router.replace("/tasks"), 1000);
+  }, [router]);
+
+  return (
+    <Loader
+      title={
+        <GradientText colors={LOGO_GRADIENT_COLORS} className="font-bold text-3xl">
+          Prio
+        </GradientText>
+      }
+    />
   );
 }

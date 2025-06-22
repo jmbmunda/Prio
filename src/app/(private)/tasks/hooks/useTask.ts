@@ -34,7 +34,7 @@ const useTask = () => {
       component: ConfirmationModal,
       props: {
         title: "Confirm Delete",
-        message: "Are you sure you want to delete this column?",
+        message: "Are you sure you want to delete this task?",
         onConfirmClick: async () => await handleDelete(id),
         confirmLabel: "Delete",
         confirmBtnProps: { variant: "destructive" },

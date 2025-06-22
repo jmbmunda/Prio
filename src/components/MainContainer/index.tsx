@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "motion/react";
-import React from "react";
 
 import TaskDrawer from "@/app/(private)/tasks/components/TaskDrawer";
 import { cn } from "@/lib/utils";

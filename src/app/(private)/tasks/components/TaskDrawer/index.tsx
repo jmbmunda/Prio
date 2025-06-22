@@ -9,6 +9,7 @@ import Drawer from "@/components/Drawer";
 import { useDrawer } from "@/context/drawer";
 
 import TaskDetails from "./TaskDetails";
+import TaskDetailsLoader from "./TaskDetailsLoader";
 
 const TASK_DRAWER_ID = "task-drawer";
 
@@ -43,7 +44,7 @@ const TaskDrawer = () => {
       isFloating={true}
     >
       <div className="w-[500px] mx-2">
-        {isLoading ? <p>Loading...</p> : <TaskDetails details={details} />}
+        {isLoading ? <TaskDetailsLoader /> : <TaskDetails details={details} />}
       </div>
     </Drawer>
   );
