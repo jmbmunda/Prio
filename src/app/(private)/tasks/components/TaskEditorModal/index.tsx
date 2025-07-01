@@ -20,9 +20,6 @@ import UploadButton from "@/components/UploadButton";
 import { taskSchema } from "./utils/schema";
 import { Props, TaskPayload } from "./utils/types";
 
-
-
-
 const TaskEditorModal = ({ columns, editValues, totalTasks, onClose }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { handleSubmit, control, setValue, watch } = useForm<TaskPayload>({
@@ -71,7 +68,7 @@ const TaskEditorModal = ({ columns, editValues, totalTasks, onClose }: Props) =>
           control={control}
           placeholder="Enter description"
         />
-        <DatePicker name="due_date" control={control} label="Due Date" />
+        <DatePicker name="due_date" control={control} label="Due Date" withTime />
         <Dropdown label="Status" name="status_id" control={control} options={statuses} />
 
         <div className="h-[1px] bg-gray-500/20 w-full my-2" />
