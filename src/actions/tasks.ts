@@ -7,7 +7,8 @@ import prisma from "@/lib/prisma";
 import { Task } from "@/lib/types";
 
 export type Payload = Pick<Task, "title" | "description" | "status_id" | "slot"> &
-  Pick<TaskPayload, "images">;
+  Pick<TaskPayload, "images"> &
+  Partial<Pick<Task, "due_date" | "start_date">>;
 
 export const getTasks = async (params?: { q?: string; limit?: number }) => {
   try {
@@ -49,7 +50,11 @@ export const updateTask = async (id: string, data: Partial<Payload>) => {
   try {
     const res = await prisma.task.update({
       where: { id },
-      data: { ...data, images: { create: data.images } },
+      data: {
+        ...data,
+        images: data?.images ? { create: data.images } : undefined,
+        schedule: data?.due_date ? { update: { end: data.due_date } } : undefined,
+      },
     });
     revalidatePath("/tasks");
     return res;
@@ -60,7 +65,15 @@ export const updateTask = async (id: string, data: Partial<Payload>) => {
 
 export const createTask = async (data: Payload) => {
   try {
-    await prisma.task.create({ data: { ...data, images: { create: data.images } } });
+    await prisma.task.create({
+      data: {
+        ...data,
+        images: data?.images?.length ? { create: data.images } : undefined,
+        schedule: data?.due_date
+          ? { create: { start: data.start_date, end: data.due_date } }
+          : undefined,
+      },
+    });
     revalidatePath("/tasks");
   } catch (error) {
     return Promise.reject(error);

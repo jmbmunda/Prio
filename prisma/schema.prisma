@@ -23,22 +23,24 @@ model User {
 }
 
 model Task {
-  id          String    @id @default(uuid())
+  id          String        @id @default(uuid())
   title       String
   description String?
-  slot        Int       @default(0)
+  slot        Int           @default(0)
   images      Image[]
-  status      Status?   @relation(fields: [status_id], references: [id])
+  status      Status?       @relation(fields: [status_id], references: [id])
   status_id   String?
-  due_date    DateTime?
-  created_at  DateTime? @default(now())
-  updated_at  DateTime? @updatedAt
+  created_at  DateTime?     @default(now())
+  updated_at  DateTime?     @updatedAt
   project_id  String?
-  project     Project?  @relation(fields: [project_id], references: [id])
+  project     Project?      @relation(fields: [project_id], references: [id])
   user_id     Int?
-  user        User?     @relation(fields: [user_id], references: [id])
-  tags        Tag[]     @relation("taskTags")
+  user        User?         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  tags        Tag[]         @relation("taskTags")
   taskTags    Tasktag[]
+  start_date  DateTime?
+  due_date    DateTime?
+  schedule    TaskSchedule? @relation("TaskToSchedule")
 }
 
 model Status {
@@ -54,14 +56,14 @@ model Image {
   url     String
   uuid    String?
   task_id String?
-  task    Task?   @relation(fields: [task_id], references: [id])
+  task    Task?   @relation(fields: [task_id], references: [id], onDelete: Cascade)
 }
 
 model Tasktag {
   task_id String
   tag_id  String
-  task    Task   @relation(fields: [task_id], references: [id])
-  tag     Tag    @relation(fields: [tag_id], references: [id])
+  task    Task   @relation(fields: [task_id], references: [id], onDelete: Cascade)
+  tag     Tag    @relation(fields: [tag_id], references: [id], onDelete: Cascade)
 
   @@id([task_id, tag_id])
 }
@@ -81,7 +83,7 @@ model Project {
   created_at DateTime? @default(now())
   updated_at DateTime?
   tasks      Task[]
-  user       User?     @relation(fields: [user_id], references: [id])
+  user       User?     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id    Int?
 }
 
@@ -89,7 +91,15 @@ model Checklist {
   id         String    @id @default(uuid())
   text       String
   is_checked Boolean
-  user       User?     @relation(fields: [user_id], references: [id])
+  user       User?     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id    Int?
   created_at DateTime? @default(now())
+}
+
+model TaskSchedule {
+  id      String    @id @default(uuid())
+  task_id String    @unique
+  start   DateTime? @default(now())
+  end     DateTime?
+  task    Task      @relation("TaskToSchedule", fields: [task_id], references: [id], onDelete: Cascade)
 }

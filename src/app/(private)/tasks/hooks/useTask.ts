@@ -6,15 +6,14 @@ import ConfirmationModal from "@/components/ConfirmationModal";
 import { useDrawer } from "@/context/drawer";
 import { useModal } from "@/context/modal";
 import { TASK_DRAWER_ID } from "@/lib/constants";
-import { Task } from "@/lib/types";
 
 const useTask = () => {
   const { openDrawer } = useDrawer();
   const { showModal } = useModal();
 
-  const onTaskClick = (task: Task) => {
+  const onTaskClick = (id: string) => {
     const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("id", task.id);
+    searchParams.set("id", id);
     window.history.replaceState({}, "", `?${searchParams.toString()}`);
     openDrawer(TASK_DRAWER_ID);
   };
@@ -26,6 +25,10 @@ const useTask = () => {
     } catch {
       toast.error("Failed to delete task");
     }
+  };
+
+  const onPriorityClick = (item: ItemParams) => {
+    console.log(item);
   };
 
   const onDeleteTaskClick = async ({ props: { id } }: ItemParams) => {
@@ -45,6 +48,7 @@ const useTask = () => {
 
   return {
     onTaskClick,
+    onPriorityClick,
     onDeleteTaskClick,
   };
 };

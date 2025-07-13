@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
+import { IconType } from "react-icons/lib";
 import { TiChevronRight } from "react-icons/ti";
 
 import { useDrawer } from "@/context/drawer";
@@ -14,6 +15,7 @@ import { cn } from "@/lib/utils";
 import GradientText from "../GradientText";
 import { HEADER_HEIGHT } from "../Header";
 import { LINKS, LOGO_GRADIENT_COLORS } from "./constants";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 
 const Drawer = dynamic(() => import("../Drawer"), { ssr: false });
 
@@ -70,23 +72,46 @@ const Navbar = () => {
         </div>
 
         <ul className="space-y-4 flex flex-col">
-          {LINKS.map(({ label, icon: Icon, href }, idx) => (
-            <Link
-              href={href}
-              key={idx}
-              className={cn(
-                "p-4 flex cursor-pointer items-center rounded-md gap-4 hover:text-purple-500",
-                href === pathname && "bg-purple-500 text-white hover:text-white"
-              )}
-            >
-              <Icon size={24} />
-              {showLabel && (
-                <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                  {label}
-                </motion.span>
-              )}
-            </Link>
-          ))}
+          {LINKS.map(({ label, icon: Icon, href, subItems }, idx) => {
+            const renderContent = (label: string, Icon: IconType, href?: string) => (
+              <Link
+                key={idx}
+                href={href ?? ""}
+                className={cn(
+                  "p-4 flex cursor-pointer items-center rounded-md gap-4 hover:text-purple-500",
+                  href === pathname && "bg-purple-500 text-white hover:text-white"
+                )}
+              >
+                <Icon size={24} />
+                {showLabel && (
+                  <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    {label}
+                  </motion.span>
+                )}
+              </Link>
+            );
+
+            if (subItems && subItems.length > 0) {
+              return (
+                <Accordion key={idx} type="single" collapsible>
+                  <AccordionItem value={label}>
+                    <AccordionTrigger className="py-0 hover:no-underline">
+                      {renderContent(label, Icon, href)}
+                    </AccordionTrigger>
+                    {subItems.map((subItem) => (
+                      <AccordionContent
+                        key={subItem.href}
+                        className={cn("py-0", showLabel && "ml-4")}
+                      >
+                        {renderContent(subItem.label, subItem.icon, subItem.href)}
+                      </AccordionContent>
+                    ))}
+                  </AccordionItem>
+                </Accordion>
+              );
+            }
+            return renderContent(label, Icon, href);
+          })}
         </ul>
       </>
     </Drawer>

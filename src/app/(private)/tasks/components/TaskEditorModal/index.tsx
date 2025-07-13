@@ -8,9 +8,11 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { CgSpinner } from "react-icons/cg";
 import { MdUpload } from "react-icons/md";
+import useSWR from "swr";
 
+import { getStatuses } from "@/actions/status";
 import { createTask, Payload } from "@/actions/tasks";
-import { DatePicker } from "@/components/DatePicker";
+import DatePickerTime from "@/components/DatePickerTime";
 import Dropdown from "@/components/Dropdown";
 import Input from "@/components/Input";
 import TextArea from "@/components/Textarea";
@@ -20,12 +22,14 @@ import UploadButton from "@/components/UploadButton";
 import { taskSchema } from "./utils/schema";
 import { Props, TaskPayload } from "./utils/types";
 
-const TaskEditorModal = ({ columns, editValues, totalTasks, onClose }: Props) => {
+const TaskEditorModal = ({ editValues, totalTasks, onClose }: Props) => {
+  const { data: statuses } = useSWR("statuses", getStatuses);
   const [isPending, startTransition] = useTransition();
   const { handleSubmit, control, setValue, watch } = useForm<TaskPayload>({
     defaultValues: {
       title: editValues?.title ?? "",
       description: editValues?.description ?? "",
+      start_date: editValues?.start_date,
       due_date: editValues?.due_date,
       status_id: editValues?.status_id ?? "",
       images: editValues?.images ?? [],
@@ -33,8 +37,9 @@ const TaskEditorModal = ({ columns, editValues, totalTasks, onClose }: Props) =>
     resolver: zodResolver(taskSchema),
   });
 
-  const statuses = columns?.map((column) => ({ label: column.name, value: column.id })) ?? [];
+  const statusOptions = statuses?.map((status) => ({ label: status.name, value: status.id })) ?? [];
   const images = watch("images");
+  const start_date = watch("start_date");
 
   const onUploadChange = (file: UploadcareFile) => {
     setValue("images", [...(images ?? []), { name: file.name, url: file.cdnUrl }]);
@@ -68,8 +73,24 @@ const TaskEditorModal = ({ columns, editValues, totalTasks, onClose }: Props) =>
           control={control}
           placeholder="Enter description"
         />
-        <DatePicker name="due_date" control={control} label="Due Date" withTime />
-        <Dropdown label="Status" name="status_id" control={control} options={statuses} />
+        <div className="flex gap-2">
+          <DatePickerTime
+            label="Start Date"
+            name="start_date"
+            control={control}
+            dateFormat="MMM d, yyyy h:mm aa"
+            containerClassName="flex-1"
+          />
+          <DatePickerTime
+            label="Due Date"
+            name="due_date"
+            control={control}
+            dateFormat="MMM d, yyyy h:mm aa"
+            minDate={start_date || new Date()}
+            containerClassName="flex-1"
+          />
+        </div>
+        <Dropdown label="Status" name="status_id" control={control} options={statusOptions} />
 
         <div className="h-[1px] bg-gray-500/20 w-full my-2" />
 

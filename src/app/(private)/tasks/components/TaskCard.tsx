@@ -12,7 +12,6 @@ import { TASK_MENU_ID } from "@/lib/constants";
 import { shortenTaskId } from "@/lib/helpers";
 import { Task } from "@/lib/types";
 
-
 type Props = { task: Task; onClick: (task: Task) => void };
 
 const TaskCard = ({ task, onClick }: Props) => {
@@ -37,21 +36,17 @@ const TaskCard = ({ task, onClick }: Props) => {
           show({
             event: e,
             position: { x: e.clientX, y: e.clientY },
-            props: { id: task.id },
+            props: { id: task.id, priority: "" },
           });
         }}
       >
         {/* HEADER */}
         <div className="flex gap-2 mb-2 items-center justify-between text-xs">
-          <p className="bg-red-100 text-red-800 font-semibold px-2 rounded-md">
-            High
-          </p>
+          <p className="bg-red-100 text-red-800 font-semibold px-2 rounded-md">High</p>
           <p className="text-muted-foreground">{shortenTaskId(task.id)}</p>
         </div>
         <p className="font-semibold text-primary truncate">{task.title}</p>
-        <p className="text-xs text-accent-foreground truncate text-nowrap">
-          {task.description}
-        </p>
+        <p className="text-xs text-accent-foreground truncate text-nowrap">{task.description}</p>
         <div className="grid grid-cols-7 h-[1.5rem] overflow-x-hidden my-2">
           {task?.images?.map((image) => (
             <Image
