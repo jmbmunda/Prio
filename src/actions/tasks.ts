@@ -1,12 +1,14 @@
 "use server";
 
+import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 
+import { taskSchema } from "@/app/(private)/tasks/components/TaskEditorModal/utils/schema";
 import { TaskPayload } from "@/app/(private)/tasks/components/TaskEditorModal/utils/types";
 import prisma from "@/lib/prisma";
 import { Task } from "@/lib/types";
 
-export type Payload = Pick<Task, "title" | "description" | "status_id" | "slot"> &
+export type Payload = Pick<Task, "title" | "description" | "status_id" | "slot" | "priority"> &
   Pick<TaskPayload, "images"> &
   Partial<Pick<Task, "due_date" | "start_date">>;
 
@@ -65,9 +67,15 @@ export const updateTask = async (id: string, data: Partial<Payload>) => {
 
 export const createTask = async (data: Payload) => {
   try {
+    const parsedData = taskSchema.safeParse(data);
+    if (!parsedData.success) return Promise.reject(parsedData.error);
+
+    const id = `PRIO-${nanoid(6)}`;
     await prisma.task.create({
       data: {
-        ...data,
+        id,
+        ...parsedData.data,
+        priority: data.priority,
         images: data?.images?.length ? { create: data.images } : undefined,
         schedule: data?.due_date
           ? { create: { start: data.start_date, end: data.due_date } }

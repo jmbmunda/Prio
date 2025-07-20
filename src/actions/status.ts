@@ -3,6 +3,7 @@
 import { Status } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
+import { columnSchema } from "@/app/(private)/tasks/components/Columns/utils/schema";
 import prisma from "@/lib/prisma";
 
 type Payload = Omit<Status, "id">;
@@ -20,7 +21,9 @@ export const getStatuses = async () => {
 
 export const createStatus = async (data: Payload) => {
   try {
-    const res = await prisma.status.create({ data });
+    const parsedData = columnSchema.safeParse(data);
+    if (!parsedData.success) return Promise.reject(parsedData.error);
+    const res = await prisma.status.create({ data: parsedData.data });
     revalidatePath("/tasks");
     return res;
   } catch (error) {

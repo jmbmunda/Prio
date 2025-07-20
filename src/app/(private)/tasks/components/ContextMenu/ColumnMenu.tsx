@@ -17,10 +17,10 @@ const ColumnMenu = ({ id, onEditClick, onDeleteClick }: Props) => {
       </Item>
       <Separator />
       <Item onClick={onEditClick}>
-        <FcEditImage className="mr-2" /> Edit column
+        <FcEditImage className="mr-2" /> Edit Column
       </Item>
       <Item onClick={onDeleteClick}>
-        <FcDeleteColumn className="mr-2" /> Delete column
+        <FcDeleteColumn className="mr-2" /> Delete Column
       </Item>
     </Menu>
   );

@@ -7,6 +7,7 @@ export const taskSchema = z
     start_date: z.date().nullable().optional(),
     due_date: z.date().nullable().optional(),
     status_id: z.string().min(1, "Select a status"),
+    priority: z.string().optional(),
     images: z.array(
       z.object({
         name: z.string(),

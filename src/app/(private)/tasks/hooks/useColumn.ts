@@ -23,7 +23,7 @@ const useColumn = () => {
     showModal({
       id: "edit-column",
       component: ColumnEditorModal,
-      title: "Update Column",
+      title: "Edit Column",
       props: { id, name, color, type: "EDIT" },
     });
   };

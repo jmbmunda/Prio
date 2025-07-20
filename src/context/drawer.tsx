@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useCallback, useContext, useReducer } from "react";
 
 import { Props as DrawerProps } from "@/components/Drawer";
 
@@ -52,8 +52,14 @@ const reducer = (state = initialState, action: DrawerAction) => {
 const DrawerProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const openDrawer = (id: string) => dispatch({ type: DrawerActionEnum.OPEN, payload: { id } });
-  const closeDrawer = (id: string) => dispatch({ type: DrawerActionEnum.CLOSE, payload: { id } });
+  const openDrawer = useCallback(
+    (id: string) => dispatch({ type: DrawerActionEnum.OPEN, payload: { id } }),
+    []
+  );
+  const closeDrawer = useCallback(
+    (id: string) => dispatch({ type: DrawerActionEnum.CLOSE, payload: { id } }),
+    []
+  );
 
   return (
     <DrawerContext.Provider value={{ openDrawers: state.openDrawers, openDrawer, closeDrawer }}>

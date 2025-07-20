@@ -37,9 +37,14 @@ const TaskEditorModal = ({ editValues, totalTasks, onClose }: Props) => {
     resolver: zodResolver(taskSchema),
   });
 
-  const statusOptions = statuses?.map((status) => ({ label: status.name, value: status.id })) ?? [];
   const images = watch("images");
   const start_date = watch("start_date");
+  const statusOptions = statuses?.map((status) => ({ label: status.name, value: status.id })) ?? [];
+  const priorityOptions = [
+    { label: "Low", value: "LOW" },
+    { label: "Medium", value: "MEDIUM" },
+    { label: "High", value: "HIGH" },
+  ];
 
   const onUploadChange = (file: UploadcareFile) => {
     setValue("images", [...(images ?? []), { name: file.name, url: file.cdnUrl }]);
@@ -90,7 +95,10 @@ const TaskEditorModal = ({ editValues, totalTasks, onClose }: Props) => {
             containerClassName="flex-1"
           />
         </div>
-        <Dropdown label="Status" name="status_id" control={control} options={statusOptions} />
+        <div className="flex gap-2">
+          <Dropdown label="Status" name="status_id" control={control} options={statusOptions} />
+          <Dropdown label="Priority" name="priority" control={control} options={priorityOptions} />
+        </div>
 
         <div className="h-[1px] bg-gray-500/20 w-full my-2" />
 

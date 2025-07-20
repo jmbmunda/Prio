@@ -1,3 +1,5 @@
+import { Priority } from "@prisma/client";
+
 export const MAP_PROJECT_COLOR = {
   ongoing: "warning",
   completed: "success",
@@ -36,3 +38,9 @@ export const TASK_DRAWER_ID = "task-drawer";
 
 export const COLUMN_MENU_ID = "column-menu-id";
 export const TASK_MENU_ID = "Task-menu-id";
+
+export const MAP_PRIORITY_COLOR: Record<Priority, { color: string; backgroundColor: string }> = {
+  HIGH: { color: "#ef4444", backgroundColor: "#fee2e2" },
+  MEDIUM: { color: "#ea580c", backgroundColor: "#ffedd5" },
+  LOW: { color: "#6b7280", backgroundColor: "#f3f4f6" },
+} as const;

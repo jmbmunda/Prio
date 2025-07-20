@@ -27,7 +27,14 @@ type Props = {
 
 const TasksList = ({ columns, activeTask, onAddTaskClick }: Props) => {
   const { show } = useContextMenu({ id: COLUMN_MENU_ID });
-  const { onTaskClick, onPriorityClick, onDeleteTaskClick } = useTask();
+  const {
+    onTaskClick,
+    onPriorityClick,
+    onDeleteTaskClick,
+    onCopyUrlClick,
+    onCopyIdClick,
+    onStatusClick,
+  } = useTask();
   const { onAddColumnClick, onEditColumnClick, onDeleteColumnClick } = useColumn();
 
   return (
@@ -113,7 +120,10 @@ const TasksList = ({ columns, activeTask, onAddTaskClick }: Props) => {
       {createPortal(
         <TaskMenu
           id={TASK_MENU_ID}
-          onEditClick={onEditColumnClick}
+          statuses={columns}
+          onCopyUrlClick={onCopyUrlClick}
+          onCopyIdClick={onCopyIdClick}
+          onStatusClick={onStatusClick}
           onPriorityClick={onPriorityClick}
           onDeleteClick={onDeleteTaskClick}
         />,

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaMinusCircle } from "react-icons/fa";
 import { HiOutlineStatusOnline } from "react-icons/hi";
+import { IoCheckmark, IoCopyOutline } from "react-icons/io5";
 import { LuTags } from "react-icons/lu";
 import { MdOutlineDateRange, MdOutlineDescription } from "react-icons/md";
 import { mutate } from "swr";
@@ -15,6 +16,7 @@ import { getTaskById, updateTask } from "@/actions/tasks";
 import Input from "@/components/Input";
 import TextArea from "@/components/Textarea";
 import UploadFile from "@/components/UploadFile";
+import { MAP_PRIORITY_COLOR } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 import DetailsRow from "./DetailsRow";
@@ -36,6 +38,14 @@ const TaskDetails = ({ details }: Props) => {
     formState: { dirtyFields },
   } = useForm();
   const [editingField, setEditingField] = useState<EditFields | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const onCopyIdClick = () => {
+    if (!details?.id) return;
+    navigator.clipboard.writeText(details.id);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
 
   const handleEdit = (field: EditFields) => {
     setEditingField(field);
@@ -44,9 +54,7 @@ const TaskDetails = ({ details }: Props) => {
   const onDoneEditField = async () => {
     if (!editingField || !details) return;
     setEditingField(null);
-
     if (!dirtyFields[editingField]) return;
-
     const value = getValues(editingField);
     await updateTask(details.id, { [editingField]: value });
   };
@@ -59,6 +67,15 @@ const TaskDetails = ({ details }: Props) => {
 
   return (
     <div className="flex flex-col w-full">
+      <button
+        type="button"
+        onClick={onCopyIdClick}
+        className="flex items-center gap-1 text-muted-foreground px-2 rounded-sm cursor-pointer text-xs ml-auto border border-border hover:bg-muted"
+        disabled={isCopied}
+      >
+        {isCopied ? "Copied" : details.id}
+        {isCopied ? <IoCheckmark /> : <IoCopyOutline />}
+      </button>
       {editingField === "title" ? (
         <Input
           name="title"
@@ -69,7 +86,7 @@ const TaskDetails = ({ details }: Props) => {
         />
       ) : (
         <button
-          className="w-full text-start text-4xl rounded-lg px-2 py-1 font-semibold my-4 hover:bg-muted/70 cursor-text "
+          className="w-full text-start text-4xl rounded-lg px-2 py-1 font-semibold my-2 hover:bg-muted/70 cursor-text "
           onClick={() => handleEdit("title")}
         >
           {getValues("title")}
@@ -80,6 +97,14 @@ const TaskDetails = ({ details }: Props) => {
         <div className="space-y-2">
           <DetailsRow label="Status:" icon={<HiOutlineStatusOnline />}>
             <Status taskId={details.id} control={control} watch={watch} />
+          </DetailsRow>
+          <DetailsRow label="Priority:" icon={<HiOutlineStatusOnline />} className="capitalize">
+            <p
+              className="px-2 rounded-md text-sm font-semibold"
+              style={MAP_PRIORITY_COLOR[details.priority!]}
+            >
+              {details.priority?.toLowerCase()}
+            </p>
           </DetailsRow>
           <DetailsRow label="Due Date:" icon={<MdOutlineDateRange />}>
             <p>

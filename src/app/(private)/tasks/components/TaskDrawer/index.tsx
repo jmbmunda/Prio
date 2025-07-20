@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import useSWR from "swr";
 
 import { getTaskById } from "@/actions/tasks";
@@ -23,9 +23,14 @@ const TaskDrawer = () => {
       keepPreviousData: true,
     }
   );
-
-  const { openDrawers, closeDrawer } = useDrawer();
+  const { openDrawers, openDrawer, closeDrawer } = useDrawer();
   const isActiveDrawer = openDrawers.includes(TASK_DRAWER_ID);
+  const openDrawerRef = useRef(openDrawer);
+
+  useEffect(() => {
+    if (!id || isActiveDrawer) return;
+    openDrawerRef.current(TASK_DRAWER_ID);
+  }, [id, isActiveDrawer]);
 
   const handleDrawerClose = () => {
     const searchParams = new URLSearchParams(window.location.search);

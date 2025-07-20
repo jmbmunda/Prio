@@ -5,7 +5,9 @@ import { TASK_MENU_ID } from "@/lib/constants";
 
 import { EventType } from "../../utils/types";
 
-const CustomEvent: React.FC<{ event: EventType }> = ({ event }) => {
+type Props = { event: EventType };
+
+const CustomEvent: React.FC<Props> = ({ event }) => {
   const { show } = useContextMenu({ id: TASK_MENU_ID });
 
   return (
@@ -14,7 +16,11 @@ const CustomEvent: React.FC<{ event: EventType }> = ({ event }) => {
         show({
           event: e,
           position: { x: e.clientX, y: e.clientY },
-          props: { id: event.task_id },
+          props: {
+            id: event.task_id,
+            status_id: event.task.status_id,
+            priority: event.task.priority,
+          },
         });
       }}
       className="truncate px-2 py-1"

@@ -13,6 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
 model User {
   id         Int         @id @default(autoincrement())
   email      String      @unique
@@ -23,7 +29,7 @@ model User {
 }
 
 model Task {
-  id          String        @id @default(uuid())
+  id          String        @id
   title       String
   description String?
   slot        Int           @default(0)
@@ -41,6 +47,7 @@ model Task {
   start_date  DateTime?
   due_date    DateTime?
   schedule    TaskSchedule? @relation("TaskToSchedule")
+  priority    Priority?     @default(LOW)
 }
 
 model Status {

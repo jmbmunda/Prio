@@ -1,7 +1,7 @@
 import { ItemParams } from "react-contexify";
 import toast from "react-hot-toast";
 
-import { deleteTask } from "@/actions/tasks";
+import { deleteTask, updateTask } from "@/actions/tasks";
 import ConfirmationModal from "@/components/ConfirmationModal";
 import { useDrawer } from "@/context/drawer";
 import { useModal } from "@/context/modal";
@@ -27,8 +27,22 @@ const useTask = () => {
     }
   };
 
-  const onPriorityClick = (item: ItemParams) => {
-    console.log(item);
+  const onStatusClick = async ({ props: { id: task_id }, data }: ItemParams) => {
+    try {
+      await updateTask(task_id, { status_id: data });
+      toast.success("Status changed!");
+    } catch {
+      toast.error("Failed");
+    }
+  };
+
+  const onPriorityClick = async ({ props: { id: task_id }, data }: ItemParams) => {
+    try {
+      await updateTask(task_id, { priority: data });
+      toast.success("Priority changed!");
+    } catch {
+      toast.error("Failed");
+    }
   };
 
   const onDeleteTaskClick = async ({ props: { id } }: ItemParams) => {
@@ -46,10 +60,24 @@ const useTask = () => {
     });
   };
 
+  const onCopyUrlClick = ({ props: { id } }: ItemParams) => {
+    const url = `${window.location.href}?id=${id}`;
+    navigator.clipboard.writeText(url);
+    toast("Copied to clipboard");
+  };
+
+  const onCopyIdClick = ({ props: { id } }: ItemParams) => {
+    navigator.clipboard.writeText(id);
+    toast("Copied to clipboard");
+  };
+
   return {
     onTaskClick,
     onPriorityClick,
     onDeleteTaskClick,
+    onCopyUrlClick,
+    onCopyIdClick,
+    onStatusClick,
   };
 };
 

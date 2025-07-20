@@ -10,6 +10,7 @@ import { EventType } from "@/app/(private)/calendar/utils/types";
 import TaskMenu from "@/app/(private)/tasks/components/ContextMenu/TaskMenu";
 import TaskEditorModal from "@/app/(private)/tasks/components/TaskEditorModal";
 import useTask from "@/app/(private)/tasks/hooks/useTask";
+import { ColumnType } from "@/app/(private)/tasks/utils/types";
 import { useModal } from "@/context/modal";
 import { TASK_MENU_ID } from "@/lib/constants";
 import { determineHexContrast } from "@/lib/helpers";
@@ -21,11 +22,19 @@ const dLocalizer = dayjsLocalizer(dayjs);
 
 type Props = {
   events: EventType[];
+  statuses: ColumnType[];
 } & Partial<Omit<CalendarProps, "events">>;
 
-const BigCalendar = ({ events, localizer = dLocalizer }: Props) => {
+const BigCalendar = ({ events, statuses, localizer = dLocalizer }: Props) => {
   const { showModal } = useModal();
-  const { onTaskClick, onDeleteTaskClick } = useTask();
+  const {
+    onTaskClick,
+    onDeleteTaskClick,
+    onCopyUrlClick,
+    onCopyIdClick,
+    onPriorityClick,
+    onStatusClick,
+  } = useTask();
 
   const { components, defaultDate, max, views } = useMemo(
     () => ({
@@ -78,8 +87,12 @@ const BigCalendar = ({ events, localizer = dLocalizer }: Props) => {
       {createPortal(
         <TaskMenu
           id={TASK_MENU_ID}
-          // onEditClick={onEditColumnClick}
+          statuses={statuses}
+          onCopyUrlClick={onCopyUrlClick}
+          onCopyIdClick={onCopyIdClick}
           onDeleteClick={onDeleteTaskClick}
+          onPriorityClick={onPriorityClick}
+          onStatusClick={onStatusClick}
         />,
         document.body
       )}

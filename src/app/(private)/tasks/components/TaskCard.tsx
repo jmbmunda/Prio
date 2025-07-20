@@ -8,9 +8,9 @@ import { CiClock2 } from "react-icons/ci";
 import { GoCommentDiscussion } from "react-icons/go";
 
 import Sortable from "@/components/Sortable";
-import { TASK_MENU_ID } from "@/lib/constants";
-import { shortenTaskId } from "@/lib/helpers";
+import { MAP_PRIORITY_COLOR, TASK_MENU_ID } from "@/lib/constants";
 import { Task } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 type Props = { task: Task; onClick: (task: Task) => void };
 
@@ -36,14 +36,19 @@ const TaskCard = ({ task, onClick }: Props) => {
           show({
             event: e,
             position: { x: e.clientX, y: e.clientY },
-            props: { id: task.id, priority: "" },
+            props: { id: task.id, status_id: task.status_id, priority: task.priority },
           });
         }}
       >
         {/* HEADER */}
         <div className="flex gap-2 mb-2 items-center justify-between text-xs">
-          <p className="bg-red-100 text-red-800 font-semibold px-2 rounded-md">High</p>
-          <p className="text-muted-foreground">{shortenTaskId(task.id)}</p>
+          <p
+            className={cn("font-semibold px-2 rounded-md capitalize")}
+            style={MAP_PRIORITY_COLOR[task.priority!]}
+          >
+            {task?.priority?.toLowerCase()}
+          </p>
+          <p className="text-muted-foreground">{task.id}</p>
         </div>
         <p className="font-semibold text-primary truncate">{task.title}</p>
         <p className="text-xs text-accent-foreground truncate text-nowrap">{task.description}</p>

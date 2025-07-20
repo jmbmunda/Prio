@@ -16,7 +16,6 @@ import { ColumnPayload, Props } from "./utils/types";
 
 import "react-color-palette/css";
 
-
 const ColumnEditorModal = ({ type, id, name, color, onClose }: Props) => {
   const [isPending, startTransition] = useTransition();
   const {
@@ -56,7 +55,7 @@ const ColumnEditorModal = ({ type, id, name, color, onClose }: Props) => {
   const getSubmitLabel = () => {
     const LABEL: Record<typeof type, string> = {
       ADD: isPending ? "Adding..." : "Add",
-      EDIT: isPending ? "Updating..." : "Update",
+      EDIT: isPending ? "Saving..." : "Save",
     };
     return LABEL[type] ?? "Submit";
   };
