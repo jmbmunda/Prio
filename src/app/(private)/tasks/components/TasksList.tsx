@@ -3,13 +3,13 @@
 import { DragOverlay } from "@dnd-kit/core";
 import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { useContextMenu } from "react-contexify";
-import { createPortal } from "react-dom";
 import { MdAdd } from "react-icons/md";
 
 import Droppable from "@/components/Droppable";
+import { ClientOnlyPortal } from "@/components/utils/ClientOnlyPortal";
 import { COLUMN_MENU_ID, TASK_MENU_ID } from "@/lib/constants";
 import { determineHexContrast } from "@/lib/helpers";
-import { Task } from "@/lib/types";
+import { TaskWithAll } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 import useColumn from "../hooks/useColumn";
@@ -21,8 +21,8 @@ import TaskCard from "./TaskCard";
 
 type Props = {
   columns: ColumnType[];
-  activeTask: Task | null;
-  onAddTaskClick: (columnId: string, tasks: Task[]) => void;
+  activeTask: TaskWithAll | null;
+  onAddTaskClick: (columnId: string, tasks: TaskWithAll[]) => void;
 };
 
 const TasksList = ({ columns, activeTask, onAddTaskClick }: Props) => {
@@ -103,21 +103,22 @@ const TasksList = ({ columns, activeTask, onAddTaskClick }: Props) => {
           </div>
         </button>
       </div>
-      {createPortal(
+
+      <ClientOnlyPortal>
         <DragOverlay>
           {activeTask && <TaskCard task={activeTask} onClick={(task) => onTaskClick(task.id)} />}
-        </DragOverlay>,
-        document.body
-      )}
-      {createPortal(
+        </DragOverlay>
+      </ClientOnlyPortal>
+
+      <ClientOnlyPortal>
         <ColumnMenu
           id={COLUMN_MENU_ID}
           onEditClick={onEditColumnClick}
           onDeleteClick={onDeleteColumnClick}
-        />,
-        document.body
-      )}
-      {createPortal(
+        />
+      </ClientOnlyPortal>
+
+      <ClientOnlyPortal>
         <TaskMenu
           id={TASK_MENU_ID}
           statuses={columns}
@@ -126,9 +127,8 @@ const TasksList = ({ columns, activeTask, onAddTaskClick }: Props) => {
           onStatusClick={onStatusClick}
           onPriorityClick={onPriorityClick}
           onDeleteClick={onDeleteTaskClick}
-        />,
-        document.body
-      )}
+        />
+      </ClientOnlyPortal>
     </>
   );
 };

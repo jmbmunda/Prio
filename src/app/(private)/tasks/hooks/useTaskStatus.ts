@@ -1,3 +1,4 @@
+import { Status } from "@prisma/client";
 import { useCallback, useMemo } from "react";
 import useSWR from "swr";
 
@@ -18,9 +19,9 @@ const useTaskStatus = () => {
   );
 
   const getAttributes = useCallback(
-    (name: string) => {
-      if (!name) return;
-      const status = statuses?.find((status) => status?.name === name);
+    (value: string, key: keyof Status) => {
+      if (!key) return;
+      const status = statuses?.find((status) => status?.[key] === value);
       return status;
     },
     [statuses]

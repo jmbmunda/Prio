@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { Suspense } from "react";
 
 import TaskDrawer from "@/app/(private)/tasks/components/TaskDrawer";
 import { cn } from "@/lib/utils";
@@ -13,7 +14,9 @@ const MainContainer = ({ children }: Props) => {
     <main className={cn(`flex h-screen`)}>
       <Navbar />
       <motion.div className="container py-4">{children}</motion.div>
-      <TaskDrawer />
+      <Suspense fallback={null}>
+        <TaskDrawer />
+      </Suspense>
     </main>
   );
 };

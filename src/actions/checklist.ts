@@ -28,7 +28,7 @@ export const getChecklist = async (params?: getChecklistParams) => {
 export const createChecklist = async ({ text }: Pick<Checklist, "text">) => {
   try {
     const res = await prisma.checklist.create({ data: { text, is_checked: false } });
-    revalidatePath("/dashboard");
+    revalidatePath("/tasks");
     return res;
   } catch (error) {
     return Promise.reject(error);
@@ -38,7 +38,7 @@ export const createChecklist = async ({ text }: Pick<Checklist, "text">) => {
 export const deleteChecklist = async (id: string) => {
   try {
     const res = await prisma.checklist.delete({ where: { id } });
-    revalidatePath("/dashboard");
+    revalidatePath("/tasks");
     return res;
   } catch (error) {
     return Promise.reject(error);
@@ -48,7 +48,7 @@ export const deleteChecklist = async (id: string) => {
 export const updateChecklist = async (id: string, data: Partial<Checklist>) => {
   try {
     const res = await prisma.checklist.update({ where: { id }, data });
-    revalidatePath("/dashboard");
+    revalidatePath("/tasks");
     return res;
   } catch (error) {
     return Promise.reject(error);

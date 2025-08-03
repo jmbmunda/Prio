@@ -12,13 +12,13 @@ import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
 
 import { updateTaskPosition } from "@/actions/tasks";
-import { Task } from "@/lib/types";
+import { TaskWithAll } from "@/lib/types";
 
 import { ColumnType } from "../utils/types";
 
 const useTasks = (data: ColumnType[] = []) => {
   const [columns, setColumns] = useState<ColumnType[]>(data);
-  const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const [activeTask, setActiveTask] = useState<TaskWithAll | null>(null);
   const [oldColumn, setOldColumn] = useState<ColumnType | null>(null);
 
   useEffect(() => {

@@ -76,7 +76,7 @@ const Navbar = () => {
             const renderContent = (label: string, Icon: IconType, href?: string) => (
               <Link
                 key={idx}
-                href={href ?? ""}
+                href={href ?? "#"}
                 className={cn(
                   "p-4 flex cursor-pointer items-center rounded-md gap-4 hover:text-purple-500",
                   href === pathname && "bg-purple-500 text-white hover:text-white"
@@ -95,8 +95,8 @@ const Navbar = () => {
               return (
                 <Accordion key={idx} type="single" collapsible>
                   <AccordionItem value={label}>
-                    <AccordionTrigger className="py-0 hover:no-underline">
-                      {renderContent(label, Icon, href)}
+                    <AccordionTrigger hasChevron={false} className="py-0 hover:no-underline">
+                      <div className="pointer-events-none">{renderContent(label, Icon, href)}</div>
                     </AccordionTrigger>
                     {subItems.map((subItem) => (
                       <AccordionContent

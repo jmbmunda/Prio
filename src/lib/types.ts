@@ -9,7 +9,23 @@ export type ProjectType = Project & {
 
 export type ProjectStatus = keyof typeof MAP_PROJECT_COLOR;
 
-export type Task = Prisma.TaskGetPayload<{ include: { images: true } }>;
+export type TaskWithInclude<TInclude extends Prisma.TaskInclude> = Prisma.TaskGetPayload<{
+  include: TInclude;
+}>;
+
+export type Task = Prisma.TaskGetPayload<object>;
+export type TaskWithImages = TaskWithInclude<{ images: true }>;
+export type TaskWithStatus = TaskWithInclude<{ status: true }>;
+export type TaskWithTags = TaskWithInclude<{ tags: true }>;
+export type TaskWithSchedule = TaskWithInclude<{ schedule: true }>;
+export type TaskWithUser = TaskWithInclude<{ user: true }>;
+export type TaskWithAll = TaskWithInclude<{
+  user: true;
+  images: true;
+  schedule: true;
+  status: true;
+  tags: true;
+}>;
 
 export type Tag = Omit<TagType, "tasks" | "tasksTags">;
 

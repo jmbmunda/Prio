@@ -4,13 +4,13 @@ import dayjs from "dayjs";
 import React, { useMemo } from "react";
 import { Calendar, Views, dayjsLocalizer, CalendarProps } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { createPortal } from "react-dom";
 
 import { EventType } from "@/app/(private)/calendar/utils/types";
 import TaskMenu from "@/app/(private)/tasks/components/ContextMenu/TaskMenu";
 import TaskEditorModal from "@/app/(private)/tasks/components/TaskEditorModal";
 import useTask from "@/app/(private)/tasks/hooks/useTask";
 import { ColumnType } from "@/app/(private)/tasks/utils/types";
+import { ClientOnlyPortal } from "@/components/utils/ClientOnlyPortal";
 import { useModal } from "@/context/modal";
 import { TASK_MENU_ID } from "@/lib/constants";
 import { determineHexContrast } from "@/lib/helpers";
@@ -84,7 +84,7 @@ const BigCalendar = ({ events, statuses, localizer = dLocalizer }: Props) => {
         })}
       />
 
-      {createPortal(
+      <ClientOnlyPortal>
         <TaskMenu
           id={TASK_MENU_ID}
           statuses={statuses}
@@ -93,9 +93,8 @@ const BigCalendar = ({ events, statuses, localizer = dLocalizer }: Props) => {
           onDeleteClick={onDeleteTaskClick}
           onPriorityClick={onPriorityClick}
           onStatusClick={onStatusClick}
-        />,
-        document.body
-      )}
+        />
+      </ClientOnlyPortal>
     </div>
   );
 };

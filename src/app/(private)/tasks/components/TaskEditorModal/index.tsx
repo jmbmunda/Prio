@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Priority } from "@prisma/client";
 import { UploadcareFile } from "@uploadcare/upload-client";
 import Image from "next/image";
 import React, { useTransition } from "react";
@@ -57,6 +58,7 @@ const TaskEditorModal = ({ editValues, totalTasks, onClose }: Props) => {
         const payload: Payload = {
           ...formData,
           images,
+          priority: formData?.priority as Priority,
           slot: totalTasks ? totalTasks + 1 : 0,
         };
         await createTask(payload);

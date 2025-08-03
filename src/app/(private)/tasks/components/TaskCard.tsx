@@ -9,10 +9,10 @@ import { GoCommentDiscussion } from "react-icons/go";
 
 import Sortable from "@/components/Sortable";
 import { MAP_PRIORITY_COLOR, TASK_MENU_ID } from "@/lib/constants";
-import { Task } from "@/lib/types";
+import { TaskWithAll } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-type Props = { task: Task; onClick: (task: Task) => void };
+type Props = { task: TaskWithAll; onClick: (task: TaskWithAll) => void };
 
 const TaskCard = ({ task, onClick }: Props) => {
   const { show } = useContextMenu({ id: TASK_MENU_ID });

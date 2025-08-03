@@ -95,7 +95,7 @@ export default function Dropdown<T extends FieldValues>({
           anchor="bottom"
           transition
           className={clsx(
-            "w-[var(--input-width)] rounded-xl border border-border/5 bg-background p-1 [--anchor-gap:var(--spacing-1)] empty:invisible z-30",
+            "w-[var(--input-width)] rounded-xl border border-border/5 bg-background p-1 [--anchor-gap:var(--spacing-1)] empty:invisible shadow-lg z-50",
             "transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0"
           )}
         >
@@ -103,7 +103,7 @@ export default function Dropdown<T extends FieldValues>({
             <ComboboxOption
               key={`${option.label}-${idx}`}
               value={option}
-              className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-background/10"
+              className="group flex cursor-pointer items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-background/10"
             >
               <BiCheck className="invisible size-4 fill-foreground group-data-[selected]:visible" />
               <div className="text-sm/6 text-foreground">{option.label}</div>

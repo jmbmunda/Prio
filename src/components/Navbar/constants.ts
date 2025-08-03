@@ -1,4 +1,4 @@
-import { GoProjectRoadmap, GoTasklist } from "react-icons/go";
+import { GoTasklist } from "react-icons/go";
 import { HiOutlineAdjustmentsVertical, HiOutlineRectangleGroup } from "react-icons/hi2";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import { TbTags } from "react-icons/tb";
@@ -8,7 +8,7 @@ import { TbTags } from "react-icons/tb";
 export const LINKS = [
   // { label: "Dashboard", icon: MdOutlineSpaceDashboard, href: "/dashboard" },
   { label: "Tasks", icon: GoTasklist, href: "/tasks" },
-  { label: "Projects", icon: GoProjectRoadmap, href: "/projects" },
+  // { label: "Projects", icon: GoProjectRoadmap, href: "/projects" },
   { label: "Calendar", icon: IoCalendarNumberOutline, href: "/calendar" },
   {
     label: "Manage",

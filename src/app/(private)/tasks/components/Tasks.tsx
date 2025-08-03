@@ -5,12 +5,11 @@ import dynamic from "next/dynamic";
 import React from "react";
 
 import { useModal } from "@/context/modal";
-import { Task } from "@/lib/types";
+import { TaskWithAll } from "@/lib/types";
 
 import TaskEditorModal from "./TaskEditorModal";
 import useTasks from "../hooks/useTasks";
 import { ColumnType } from "../utils/types";
-
 
 const TasksList = dynamic(() => import("./TasksList"), { ssr: false });
 
@@ -23,7 +22,7 @@ const Tasks = ({ data }: Props) => {
     useTasks(data);
   const { showModal } = useModal();
 
-  const onAddTaskClick = (status_id: string, tasks: Task[]) => {
+  const onAddTaskClick = (status_id: string, tasks: TaskWithAll[]) => {
     showModal({
       id: "add-task",
       title: "Add Task",

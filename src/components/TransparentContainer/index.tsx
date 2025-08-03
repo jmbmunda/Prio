@@ -29,7 +29,7 @@ const TransparentContainer = ({
     >
       {hasHeader && (
         <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center gap-2 cursor-pointer">
+          <div className="flex items-center gap-2">
             <p className="font-bold text-xl">{title}</p>
             {/* <FaChevronRight /> */}
           </div>

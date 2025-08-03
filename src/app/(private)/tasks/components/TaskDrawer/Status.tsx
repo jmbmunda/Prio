@@ -38,9 +38,9 @@ const Status = ({ taskId, control, watch, placeholder }: Props) => {
       onChange={handleChange}
       className={cn(
         "cursor-pointer w-fit font-semibold px-2 py-1 rounded-md text-sm border-none",
-        determineHexContrast(getAttributes(status)?.color) ? "text-black" : "text-white"
+        determineHexContrast(getAttributes(status, "name")?.color) ? "text-black" : "text-white"
       )}
-      style={{ backgroundColor: getAttributes(status)?.color }}
+      style={{ backgroundColor: getAttributes(status, "name")?.color }}
     />
   );
 };

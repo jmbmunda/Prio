@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from "@prisma/client";
+import { nanoid } from "nanoid";
 
 const prisma = new PrismaClient();
 
@@ -10,7 +11,13 @@ const userData: Prisma.UserCreateInput[] = [
       create: [{ name: "Project 1", color: "blue" }],
     },
     tasks: {
-      create: [{ title: "Task 1", description: "Lorem ipsum dolor sit amet." }],
+      create: [
+        {
+          id: `PRIO-${nanoid(6)}`,
+          title: "Jason's Task",
+          description: "Lorem ipsum dolor sit amet.",
+        },
+      ],
     },
   },
   {
@@ -20,7 +27,13 @@ const userData: Prisma.UserCreateInput[] = [
       create: [{ name: "Damdam", color: "pink" }],
     },
     tasks: {
-      create: [{ title: "Task 1", description: "Lorem ipsum dolor sit amet." }],
+      create: [
+        {
+          id: `PRIO-${nanoid(6)}`,
+          title: "Anna's Task",
+          description: "Lorem ipsum dolor sit amet.",
+        },
+      ],
     },
   },
 ];

@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-import { Task } from "@/lib/types";
+import { TaskWithAll } from "@/lib/types";
 
 import { taskSchema } from "./schema";
 
 export type Props = {
-  editValues?: Task | null;
+  editValues?: TaskWithAll | null;
   totalTasks?: number;
   onClose: () => void;
 };

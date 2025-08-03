@@ -16,8 +16,8 @@ export const getTasks = async (params?: { q?: string; limit?: number }) => {
   try {
     const res = await prisma.task.findMany({
       take: params?.limit ?? 10,
-      include: { user: true, project: true, images: true, tags: true },
-      where: { OR: [{ title: { contains: params?.q } }, { id: params?.q }] },
+      include: { user: true, images: true, tags: true, status: true, schedule: true },
+      where: { OR: [{ title: { contains: params?.q, mode: "insensitive" } }, { id: params?.q }] },
     });
     return res;
   } catch (error) {
@@ -75,7 +75,7 @@ export const createTask = async (data: Payload) => {
       data: {
         id,
         ...parsedData.data,
-        priority: data.priority,
+        priority: data?.priority,
         images: data?.images?.length ? { create: data.images } : undefined,
         schedule: data?.due_date
           ? { create: { start: data.start_date, end: data.due_date } }
