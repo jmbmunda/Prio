@@ -1,0 +1,31 @@
+# Ignore dependencies and build artifacts
+node_modules
+.next
+out
+dist
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Local env and secrets
+.env
+.env.local
+.env.*.local
+
+# OS / Editor / IDE files
+.DS_Store
+.vscode
+.idea
+
+# Git-related
+.git
+.gitignore
+
+# Docker config files (no need to copy into image)
+Dockerfile*
+docker-compose*.yml
+
+# Other files to exclude from build context
+README.md

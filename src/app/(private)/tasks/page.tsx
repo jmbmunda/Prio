@@ -17,8 +17,8 @@ type SearchParams = {
   sort?: "asc" | "desc";
 };
 
-const TasksPage = async ({ searchParams }: { searchParams: SearchParams }) => {
-  const params = await searchParams;
+const TasksPage = async ({ searchParams }: { searchParams: Promise<Record<string, string>> }) => {
+  const params = (await searchParams) as SearchParams;
   const checklists = await getChecklist();
   const status = await getStatusByName(params?.status ?? "");
   const statuses = await getStatuses({
