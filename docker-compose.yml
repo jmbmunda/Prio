@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    # depends_on:
+    #     - db
+
+#   db:
+#     image: postgres:15
+#     environment: 
+#       POSTGRES_USER: jm
+#       POSTGRES_PASSWORD: jmpassword1234
+#       POSTGRES_DB: priodb
+#     ports:
+#       - 5432:5432
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+
+# volumes:
+#   pgdata:

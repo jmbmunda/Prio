@@ -1,0 +1,131 @@
+"use server";
+
+import { nanoid } from "nanoid";
+import { revalidatePath } from "next/cache";
+
+import { taskSchema } from "@/app/(private)/tasks/components/TaskEditorModal/utils/schema";
+import { TaskPayload } from "@/app/(private)/tasks/components/TaskEditorModal/utils/types";
+import prisma from "@/lib/prisma";
+import { Task } from "@/lib/types";
+
+export type Payload = Pick<Task, "title" | "description" | "status_id" | "slot" | "priority"> &
+  Pick<TaskPayload, "images"> &
+  Partial<Pick<Task, "due_date" | "start_date">>;
+
+export const getTasks = async (params?: { q?: string; limit?: number }) => {
+  try {
+    const res = await prisma.task.findMany({
+      take: params?.limit ?? 10,
+      include: { user: true, images: true, tags: true, status: true, schedule: true },
+      where: { OR: [{ title: { contains: params?.q, mode: "insensitive" } }, { id: params?.q }] },
+    });
+    return res;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const getTaskById = async (id: string) => {
+  try {
+    const res = await prisma.task.findUnique({
+      where: { id: id },
+      include: { status: true, images: true, tags: true, taskTags: { include: { tag: true } } },
+    });
+    if (!res) return null;
+    const tags = res.taskTags.map((item) => item.tag);
+    return { ...res, tags };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const deleteTask = async (id: string) => {
+  try {
+    await prisma.task.delete({ where: { id } });
+    revalidatePath("/tasks");
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const updateTask = async (id: string, data: Partial<Payload>) => {
+  try {
+    const res = await prisma.task.update({
+      where: { id },
+      data: {
+        ...data,
+        images: data?.images ? { create: data.images } : undefined,
+        schedule: data?.due_date ? { update: { end: data.due_date } } : undefined,
+      },
+    });
+    revalidatePath("/tasks");
+    return res;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const createTask = async (data: Payload) => {
+  try {
+    const parsedData = taskSchema.safeParse(data);
+    if (!parsedData.success) return Promise.reject(parsedData.error);
+
+    const id = `PRIO-${nanoid(6)}`;
+    await prisma.task.create({
+      data: {
+        id,
+        ...parsedData.data,
+        priority: data?.priority,
+        images: data?.images?.length ? { create: data.images } : undefined,
+        schedule: data?.due_date
+          ? { create: { start: data.start_date, end: data.due_date } }
+          : undefined,
+      },
+    });
+    revalidatePath("/tasks");
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+type UpdateTaskPositionPayload = {
+  taskId: string;
+  newColumnId: string;
+  oldColumnId: string;
+  newIndex: number;
+  oldIndex: number;
+};
+
+export const updateTaskPosition = async (payload: UpdateTaskPositionPayload) => {
+  try {
+    // Update the old column
+    await prisma.task.updateMany({
+      where: {
+        status_id: payload.oldColumnId,
+        slot: { gt: payload.oldIndex },
+      },
+      data: {
+        slot: { decrement: 1 },
+      },
+    });
+
+    // Update the new column
+    await prisma.task.updateMany({
+      where: {
+        status_id: payload.newColumnId,
+        slot: { gte: payload.newIndex },
+      },
+      data: {
+        slot: { increment: 1 },
+      },
+    });
+
+    // Update the task iteself
+    await prisma.task.update({
+      where: { id: payload.taskId },
+      data: { slot: payload.newIndex, status_id: payload.newColumnId },
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};

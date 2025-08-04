@@ -1,17 +1,17 @@
 import React from "react";
-import DashboardSection from "../dashboard/components/DashboardSection";
-import Projects from "../dashboard/components/Projects";
-import prisma from "@/lib/prisma";
+
+import { getProjects } from "@/actions/projects";
+import TransparentContainer from "@/components/TransparentContainer";
+
+import Projects from "./components/Projects";
 
 const ProjectsPage = async () => {
-  const projects = await prisma.project?.findMany({ take: 10, include: { tasks: true } });
+  const projects = await getProjects();
 
   return (
-    <div>
-      <DashboardSection title="My Projects" className="col-span-2">
-        <Projects projects={projects} />
-      </DashboardSection>
-    </div>
+    <TransparentContainer title="My Projects" hasHeader={false} className="col-span-2">
+      <Projects projects={projects} />
+    </TransparentContainer>
   );
 };
 

@@ -13,34 +13,100 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
 model User {
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
-  name     String?
-  tasks    Task[]
-  projects Project[]
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  name       String?
+  tasks      Task[]
+  projects   Project[]
+  checklists Checklist[]
 }
 
 model Task {
-  id          Int       @id @default(autoincrement())
+  id          String        @id
   title       String
   description String?
-  created_at  DateTime  @default(now())
-  updated_at  DateTime? @updatedAt
+  slot        Int           @default(0)
+  images      Image[]
+  status      Status?       @relation(fields: [status_id], references: [id])
+  status_id   String?
+  created_at  DateTime?     @default(now())
+  updated_at  DateTime?     @updatedAt
   project_id  String?
-  project     Project?  @relation(fields: [project_id], references: [id])
+  project     Project?      @relation(fields: [project_id], references: [id])
   user_id     Int?
-  user        User?     @relation(fields: [user_id], references: [id])
-  status      String?
+  user        User?         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  tags        Tag[]         @relation("taskTags")
+  taskTags    Tasktag[]
+  start_date  DateTime?
+  due_date    DateTime?
+  schedule    TaskSchedule? @relation("TaskToSchedule")
+  priority    Priority?     @default(LOW)
+}
+
+model Status {
+  id    String @id @default(uuid())
+  name  String @unique
+  color String @default("#D3D3D3")
+  tasks Task[]
+}
+
+model Image {
+  id      String  @id @default(uuid())
+  name    String
+  url     String
+  uuid    String?
+  task_id String?
+  task    Task?   @relation(fields: [task_id], references: [id], onDelete: Cascade)
+}
+
+model Tasktag {
+  task_id String
+  tag_id  String
+  task    Task   @relation(fields: [task_id], references: [id], onDelete: Cascade)
+  tag     Tag    @relation(fields: [tag_id], references: [id], onDelete: Cascade)
+
+  @@id([task_id, tag_id])
+}
+
+model Tag {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  color    String?
+  tasks    Task[]    @relation("taskTags")
+  taskTags Tasktag[]
 }
 
 model Project {
   id         String    @id @default(uuid())
   name       String
   color      String?
-  created_at DateTime  @default(now())
+  created_at DateTime? @default(now())
   updated_at DateTime?
   tasks      Task[]
-  user       User?     @relation(fields: [user_id], references: [id])
+  user       User?     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id    Int?
+}
+
+model Checklist {
+  id         String    @id @default(uuid())
+  text       String
+  is_checked Boolean
+  user       User?     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id    Int?
+  created_at DateTime? @default(now())
+}
+
+model TaskSchedule {
+  id      String    @id @default(uuid())
+  task_id String    @unique
+  start   DateTime? @default(now())
+  end     DateTime?
+  task    Task      @relation("TaskToSchedule", fields: [task_id], references: [id], onDelete: Cascade)
 }

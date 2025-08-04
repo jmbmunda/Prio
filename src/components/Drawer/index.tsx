@@ -1,9 +1,8 @@
 "use client";
-import { cn } from "@/lib/utils";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { IoClose } from "react-icons/io5";
 import { motion, type Transition } from "motion/react";
-import { createPortal } from "react-dom";
+import React, { createContext, useEffect, useState } from "react";
+
+import { cn } from "@/lib/utils";
 
 type DrawerContextProps = {
   show: boolean;
@@ -29,10 +28,13 @@ const MAP_DRAWER_POSITION = {
   bottom: { style: "bottom-0 left-0 w-full h-auto max-h-screen", initial: { y: "100%" } },
 };
 
+const MAP_DRAWER_FIXED = {
+  left: { style: "w-auto h-full", initial: { w: "auto" } },
+};
+
 type Position = keyof typeof MAP_DRAWER_POSITION;
 
-type Props = {
-  children: React.ReactNode;
+export type Props = {
   show: boolean;
   close: () => void;
   closeOnOverlayClick?: boolean;
@@ -41,7 +43,11 @@ type Props = {
   transition?: Transition;
   className?: string;
   overlayClassName?: string;
-};
+  onAnimationComplete?: () => void;
+  children: React.ReactNode;
+} & FloatingProps;
+
+type FloatingProps = { isFloating: true; width?: never } | { isFloating: false; width?: number };
 
 const Drawer = ({
   className,
@@ -52,8 +58,22 @@ const Drawer = ({
   closeOnEscape = false,
   position = "left",
   overlayClassName,
+  isFloating,
   transition = { duration: 0.2, ease: "linear" },
+  width,
+  onAnimationComplete,
 }: Props) => {
+  const containerInitial = isFloating ? "none" : "block";
+  const drawerAnimate = isFloating ? { x: 0, y: 0 } : { width };
+
+  const draweInitial = isFloating
+    ? MAP_DRAWER_POSITION[position].initial
+    : MAP_DRAWER_FIXED["left"].initial;
+
+  const drawerStyle = isFloating
+    ? MAP_DRAWER_POSITION[position].style
+    : MAP_DRAWER_FIXED["left"].style;
+
   useEffect(() => {
     const handleKeyEvent = (event: KeyboardEvent) => {
       if (closeOnEscape && event.code === "Escape") {
@@ -65,36 +85,34 @@ const Drawer = ({
     return () => window.removeEventListener("keydown", handleKeyEvent);
   }, [closeOnEscape, close]);
 
-  return createPortal(
+  return (
     <motion.div
-      initial={{ display: "none" }}
-      animate={{ display: show ? "block" : "none" }}
-      className={cn("w-full h-full fixed top-0 z-10 bg-black/50", overlayClassName)}
+      initial={{ display: containerInitial }}
+      animate={{ display: show ? "block" : containerInitial }}
+      className={cn(
+        "relative",
+        isFloating && "w-full h-full fixed top-0 z-10 bg-black/50",
+        overlayClassName
+      )}
       {...(closeOnOverlayClick && { onClick: close })}
     >
       <motion.div
-        initial={MAP_DRAWER_POSITION[position].initial}
-        animate={show ? { x: 0, y: 0 } : MAP_DRAWER_POSITION[position].initial}
+        initial={draweInitial}
+        animate={show ? drawerAnimate : draweInitial}
         transition={transition}
         onClick={(e) => e.stopPropagation()}
-        className={cn(`absolute bg-white p-4 z-10 overflow-y-scroll`, MAP_DRAWER_POSITION[position].style, className)}
-      >
-        {close && (
-          <span className="grid place-content-end">
-            <IoClose size={24} className="cursor-pointer m-2" onClick={close} />
-          </span>
+        className={cn(
+          `bg-background border border-muted p-4 z-10 overflow-y-scroll`,
+          isFloating && "absolute",
+          drawerStyle,
+          className
         )}
+        onAnimationComplete={onAnimationComplete}
+      >
         {children}
       </motion.div>
-    </motion.div>,
-    document.body
+    </motion.div>
   );
-};
-
-export const useDrawer = () => {
-  const context = useContext(DrawerContext);
-  if (!context) throw new Error("useDrawer must be used inside a DrawerProvider");
-  return context;
 };
 
 export default Drawer;

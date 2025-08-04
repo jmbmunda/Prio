@@ -9,3 +9,6 @@ export function capitalize(text: string) {
   if (!text) return;
   return text[0].toUpperCase() + text.slice(1);
 }
+
+export const isObjectEmpty = (obj: unknown) =>
+  obj && typeof obj === "object" && Object.keys(obj).length === 0;
